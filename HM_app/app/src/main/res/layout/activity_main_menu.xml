@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/heart_beat">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="105dp"
+        android:gravity="bottom|center"
+        android:textSize="25sp"
+        android:text="Test"
+        android:textColor="@android:color/white"
+        android:drawableTop="@drawable/test_icon"
+        android:id="@+id/testButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="65dp"
+        android:background="@android:color/transparent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="105dp"
+        android:paddingTop="15dp"
+        android:gravity="bottom|center"
+        android:textSize="25sp"
+        android:text="Settings"
+        android:textColor="@android:color/white"
+        android:drawableTop="@drawable/settings_icon"
+        android:id="@+id/settingsButton"
+        android:layout_marginRight="35dp"
+        android:layout_alignTop="@+id/testButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="105dp"
+        android:paddingTop="15dp"
+        android:gravity="bottom|center"
+        android:textSize="25sp"
+        android:text="Help"
+        android:textColor="@android:color/white"
+        android:drawableTop="@drawable/help_icon"
+        android:id="@+id/helpButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/testButton"
+        android:layout_alignStart="@+id/testButton"
+        android:layout_marginBottom="102dp"
+        android:background="@android:color/transparent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="105dp"
+        android:paddingTop="20dp"
+        android:gravity="bottom|center"
+        android:textSize="25sp"
+        android:text="Exit"
+        android:textColor="@android:color/white"
+        android:drawableTop="@drawable/exit_icon"
+        android:id="@+id/exitButton"
+        android:layout_alignBottom="@+id/helpButton"
+        android:layout_alignRight="@+id/settingsButton"
+        android:layout_alignEnd="@+id/settingsButton"
+        android:background="@android:color/transparent"/>
+</RelativeLayout>
