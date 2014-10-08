@@ -20,9 +20,14 @@
             android:name=".MainMenuActivity"
             android:label="@string/title_activity_main_menu" >
             <intent-filter>
-                <action android:name="edu.odu.ece486.hm_app.MENU"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="edu.odu.ece486.hm_app.MENU" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test" >
         </activity>
     </application>
 

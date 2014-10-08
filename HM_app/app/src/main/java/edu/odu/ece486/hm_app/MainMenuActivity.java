@@ -1,6 +1,7 @@
 package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,57 @@ public class MainMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        // Implement Buttons.
+        implementTestButton();
+        implementSettingsButton();
+        implementHelpButton();
+        implementExitButton();
+    }
+
+//==================================================================================================
+
+    // Implement Test Button functionality.
+    private void implementTestButton() {
+        Button testButton = (Button) findViewById(R.id.testButton);
+
+        // Open the Valsalva test activity.
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Switch to Test Activity
+                startActivity(new Intent(MainMenuActivity.this, TestActivity.class));
+            }
+        });
+    }
+
+    // Implement Settings Button functionality.
+    private void implementSettingsButton() {
+        Button settingsButton = (Button) findViewById(R.id.settingsButton);
+
+        // Open the settings activity
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Switch to Settings Activity
+            }
+        });
+    }
+
+    // Implement Help Button functionality.
+    private void implementHelpButton() {
+        Button helpButton = (Button) findViewById(R.id.helpButton);
+
+        // Open the Help activity.
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Switch to help activity.
+            }
+        });
+    }
+
+    // Implement Exit Button functionality.
+    private void implementExitButton() {
         Button exitButton = (Button) findViewById(R.id.exitButton);
 
         // Exit the app when the user clicks the Quit button.
@@ -26,6 +78,7 @@ public class MainMenuActivity extends Activity {
         });
     }
 
+//==================================================================================================
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

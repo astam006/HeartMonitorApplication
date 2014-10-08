@@ -8,5 +8,6 @@
     <string name="begin_button">Begin Test</string>
     <string name="quit_button">Quit</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>
