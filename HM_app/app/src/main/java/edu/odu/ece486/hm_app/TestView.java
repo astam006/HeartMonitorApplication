@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.Formatter;
@@ -27,8 +28,14 @@ public class TestView extends View {
     private int index = 0;
     private int flag = 0;
 
+    // Debugging rectangle text output
     private StringBuilder status = new StringBuilder(0);
     private Formatter formatter = new Formatter(status);
+
+    // Bluetooth data information
+    private StringBuilder blueToothData = new StringBuilder(0);
+    private Formatter blueToothFormatter = new Formatter(blueToothData);
+
 
     public TestView(Context context) {
         super(context);
@@ -36,6 +43,10 @@ public class TestView extends View {
 
         paint.setTypeface(Typeface.SANS_SERIF);
         paint.setTextSize(30);
+    }
+
+    public TestView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     @Override
@@ -66,6 +77,10 @@ public class TestView extends View {
         paint.setColor(Color.CYAN);
         canvas.drawText(status.toString(), 10, 30, paint);
 
+        // Drawing bluetooth data message
+        paint.setColor(Color.YELLOW);
+        canvas.drawText(blueToothData.toString(), 10, 100, paint);
+
         // Drawing threshold barrier line.
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(8);
@@ -87,13 +102,13 @@ public class TestView extends View {
     private void update(int i) {
         if(flag == 0) {
             if(top > 20 && top < (bottom + 50))
-                top -= 20;
+                top -= bottom / 30;
             else {
                 flag = 1;
             }
         } else if(flag == 1) {
             if(top <= (bottom - 50))
-                top += 20;
+                top += bottom / 30;
             else
                 flag = 0;
         }
@@ -101,6 +116,10 @@ public class TestView extends View {
         // Build status message
         status.delete(0, status.length());
         formatter.format("Y Value: (%3.0f)", top);
+
+        // Build blueTooth message
+        blueToothData.delete(0, blueToothData.length());
+        blueToothFormatter.format("BlueTooth Data: ");
     }
 
     @Override

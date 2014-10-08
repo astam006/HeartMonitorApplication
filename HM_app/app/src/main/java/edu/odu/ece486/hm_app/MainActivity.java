@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         Thread splashTimer = new Thread() {
           public void run(){
               try{
-                  sleep(5000);
+                  sleep(2000);
                   Intent menuIntent = new Intent("edu.odu.ece486.hm_app.MENU");
                   startActivity(menuIntent);
               } catch (InterruptedException e) {
