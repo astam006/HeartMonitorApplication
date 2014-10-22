@@ -9,7 +9,6 @@ import android.view.View;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
-
 public class TestActivity extends Activity {
 
     @Override
@@ -25,6 +24,7 @@ public class TestActivity extends Activity {
         /**
          * Use a countdown timer for the valsalva test.
          */
+        /**-----------------------------------------------------------------*/
         new CountDownTimer(15000, 1000) {
             @Override
             public void onTick(long millsUntilFinished) {
@@ -38,9 +38,9 @@ public class TestActivity extends Activity {
                 timerView.setText("Done!");
             }
         }.start();
+        /**-----------------------------------------------------------------*/
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
