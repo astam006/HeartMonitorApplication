@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.os.CountDownTimer;
+import android.widget.TextView;
 
 
 public class TestActivity extends Activity {
@@ -14,9 +16,29 @@ public class TestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        View testView = new TestView(this);
-        setContentView(testView);
-        testView.setBackgroundColor(Color.BLACK);
+
+        /**
+         * Initialize widgets for manipulation.
+         */
+        final TextView timerView = (TextView) findViewById(R.id.timerValueView);
+
+        /**
+         * Use a countdown timer for the valsalva test.
+         */
+        new CountDownTimer(15000, 1000) {
+            @Override
+            public void onTick(long millsUntilFinished) {
+                timerView.setTextColor(Color.RED);
+                timerView.setText(Long.toString(millsUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                timerView.setTextColor(Color.GREEN);
+                timerView.setText("Done!");
+            }
+        }.start();
+
     }
 
 

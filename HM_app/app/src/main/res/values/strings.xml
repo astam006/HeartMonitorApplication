@@ -9,5 +9,7 @@
     <string name="quit_button">Quit</string>
     <string name="title_activity_main_menu">Main Menu</string>
     <string name="title_activity_test">Valsalva Test</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_help">HelpActivity</string>
 
 </resources>

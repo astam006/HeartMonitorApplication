@@ -1,130 +1,248 @@
 package edu.odu.ece486.hm_app;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.Formatter;
 
 /**
- * Created by Andrew on 10/7/2014.
+ * This custom view is created to display the animation of the pressure bar.
+ * The view only takes a small part of the Test Activity screen, and the rest of
+ * the activity will use the activity_test.xml.
  */
 public class TestView extends View {
+    private String mExampleString; // TODO: use a default from R.string...
+    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
+    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
+    private Drawable mExampleDrawable;
 
-    // Values for the Rectangle
-    private int xMax;
-    private int yMax;
-    private float width = 100;
-    private float left = xMax - width;
-    private float right = xMax;
-    private float top = yMax - 100;
-    private float bottom = yMax;
-    private Paint paint;
+    // Rectangle boundaries variables.
+    private float top;
+    private float bottom;
+    private float left;
+    private float right;
 
+    // Index variable used for initialization
     private int index = 0;
-    private int flag = 0;
 
-    // Debugging rectangle text output
-    private StringBuilder status = new StringBuilder(0);
-    private Formatter formatter = new Formatter(status);
+    // Flag used to alternate direction.
+    private int direction = 0;              // 0 = Up; 1 = down;
 
-    // Bluetooth data information
-    private StringBuilder blueToothData = new StringBuilder(0);
-    private Formatter blueToothFormatter = new Formatter(blueToothData);
+    private TextPaint mTextPaint;
 
+    //private int passingPressureHeight =  getHeight() / 3;
+    private Paint paint = new Paint();
+
+/****************************************************************************************/
 
     public TestView(Context context) {
         super(context);
-        paint = new Paint();
-
-        paint.setTypeface(Typeface.SANS_SERIF);
-        paint.setTextSize(30);
+        init(null, 0);
     }
 
     public TestView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(attrs, 0);
     }
 
-    @Override
-    public void onDraw(Canvas canvas) {
-        if(index == 0) {
-            bottom = canvas.getHeight();
-            width = 100;
-            left = canvas.getWidth() - width;
-            right = canvas.getWidth();
-            top = canvas.getHeight() - 100;
+    public TestView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(attrs, defStyle);
+    }
+
+/****************************************************************************************/
+
+    private void init(AttributeSet attrs, int defStyle) {
+        // Load attributes
+        final TypedArray a = getContext().obtainStyledAttributes(
+                attrs, R.styleable.TestView, defStyle, 0);
+
+        //mExampleString = a.getString(
+              //  R.styleable.TestView_exampleString);
+        mExampleColor = a.getColor(
+                R.styleable.TestView_exampleColor,
+                mExampleColor);
+        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
+        // values that should fall on pixel boundaries.
+        mExampleDimension = a.getDimension(
+                R.styleable.TestView_exampleDimension,
+                mExampleDimension);
+
+        if (a.hasValue(R.styleable.TestView_exampleDrawable)) {
+            mExampleDrawable = a.getDrawable(
+                    R.styleable.TestView_exampleDrawable);
+            mExampleDrawable.setCallback(this);
         }
 
-        // Drawing the background "tube" for the air pressure meter.
-        paint.setColor(Color.DKGRAY);
-        canvas.drawRect(left, 0.0f, right, bottom, paint);
+        a.recycle();
 
-        // If the rectangle crosses the threshold, turn green.
-        if(top <= (canvas.getHeight() / 4))
+        // Set up a default TextPaint object
+        mTextPaint = new TextPaint();
+        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setTextAlign(Paint.Align.LEFT);
+
+        // Update TextPaint and text measurements from attributes
+        //invalidateTextPaintAndMeasurements();
+    }
+
+/****************************************************************************************/
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        int contentWidth = getWidth();
+        int contentHeight = getHeight();
+
+        int passingPressureHeight = contentHeight / 3;
+
+        // Initialization of Rectangle boundaries.
+        if(index == 0) {
+            left = 0;
+            top = contentHeight - (contentHeight / 20);
+            right = contentWidth;
+            bottom = contentHeight;
+        }
+
+        // Avoid repeat initializing.
+        index = 1;
+
+        // TODO: consider storing these as member variables to reduce
+        // allocations per draw cycle.
+        int paddingLeft = getPaddingLeft();
+        int paddingTop = getPaddingTop();
+        int paddingRight = getPaddingRight();
+        int paddingBottom = getPaddingBottom();
+
+        // Draw the example drawable on top of the text.
+        if (mExampleDrawable != null) {
+            mExampleDrawable.setBounds(paddingLeft, paddingTop,
+                    paddingLeft + contentWidth, paddingTop + contentHeight);
+            mExampleDrawable.draw(canvas);
+        }
+
+        // Drawing rectangle the appropriate color.
+        if(top < passingPressureHeight)
             paint.setColor(Color.GREEN);
         else
             paint.setColor(Color.RED);
-
-        // Draw the dynamic rectangle.
-        paint.setStrokeWidth(3);
         canvas.drawRect(left, top, right, bottom, paint);
 
-        // Debugging rectangle top location
-        paint.setColor(Color.CYAN);
-        canvas.drawText(status.toString(), 10, 30, paint);
-
-        // Drawing bluetooth data message
-        paint.setColor(Color.YELLOW);
-        canvas.drawText(blueToothData.toString(), 10, 100, paint);
-
-        // Drawing threshold barrier line.
+        // Draw the minimum passing pressure line.
         paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(8);
-        canvas.drawLine(canvas.getWidth() - 150, canvas.getHeight() / 4, canvas.getWidth(), canvas.getHeight() / 4, paint);
+        paint.setStrokeWidth(8.0f);
+        canvas.drawLine(0, passingPressureHeight, contentWidth, passingPressureHeight, paint);
 
-        // Update the rectangle
-        update(index);
+
+        // Animate the pressure bar.
+        update();
 
         // Delay
         try {
             Thread.sleep(15);
         } catch (InterruptedException e) { }
 
-        index = 1;
-        invalidate(); // Force a re-draw
+        invalidate();       // Force a re-draw.
+        requestLayout();    // Maintain stability with layout.
     }
 
-    // Update the size of the rectangle.
-    private void update(int i) {
-        if(flag == 0) {
+/****************************************************************************************/
+
+    /**
+     * Update function used to animate the pressure bar based upon the values received
+     * from the air pressure sensor.
+     */
+    private void update() {
+        // Make the Rectangle grow and shrink vertically.
+        if(direction == 0) {
             if(top > 20 && top < (bottom + 50))
                 top -= bottom / 30;
-            else {
-                flag = 1;
-            }
-        } else if(flag == 1) {
+            else
+                direction = 1;
+        } else if(direction == 1) {
             if(top <= (bottom - 50))
                 top += bottom / 30;
             else
-                flag = 0;
+                direction = 0;
         }
-
-        // Build status message
-        status.delete(0, status.length());
-        formatter.format("Y Value: (%3.0f)", top);
-
-        // Build blueTooth message
-        blueToothData.delete(0, blueToothData.length());
-        blueToothFormatter.format("BlueTooth Data: ");
     }
 
-    @Override
-    public void onSizeChanged(int w, int h, int oldW, int oldH) {
-        xMax = w - 1;
-        yMax = h - 1;
-    }
+/****************************************************************************************/
+
+    /**
+     * Gets the example string attribute value.
+     * @return The example string attribute value.
+     */
+    /*public String getExampleString() {
+        return mExampleString;
+    }*/
+
+    /**
+     * Sets the view's example string attribute value. In the example view, this string
+     * is the text to draw.
+     * @param exampleString The example string attribute value to use.
+     */
+    /*public void setExampleString(String exampleString) {
+        mExampleString = exampleString;
+        invalidateTextPaintAndMeasurements();
+    }*/
+
+    /**
+     * Gets the example color attribute value.
+     * @return The example color attribute value.
+     */
+    /*public int getExampleColor() {
+        return mExampleColor;
+    }*/
+
+    /**
+     * Sets the view's example color attribute value. In the example view, this color
+     * is the font color.
+     * @param exampleColor The example color attribute value to use.
+     */
+    /*public void setExampleColor(int exampleColor) {
+        mExampleColor = exampleColor;
+        //invalidateTextPaintAndMeasurements();
+    }*/
+
+    /**
+     * Gets the example dimension attribute value.
+     * @return The example dimension attribute value.
+     */
+    /*public float getExampleDimension() {
+        return mExampleDimension;
+    }*/
+
+    /**
+     * Sets the view's example dimension attribute value. In the example view, this dimension
+     * is the font size.
+     * @param exampleDimension The example dimension attribute value to use.
+     */
+    /*public void setExampleDimension(float exampleDimension) {
+        mExampleDimension = exampleDimension;
+        //invalidateTextPaintAndMeasurements();
+    }*/
+
+    /**
+     * Gets the example drawable attribute value.
+     * @return The example drawable attribute value.
+     */
+    /*public Drawable getExampleDrawable() {
+        return mExampleDrawable;
+    }*/
+
+    /**
+     * Sets the view's example drawable attribute value. In the example view, this drawable is
+     * drawn above the text.
+     * @param exampleDrawable The example drawable attribute value to use.
+     */
+    /*public void setExampleDrawable(Drawable exampleDrawable) {
+        mExampleDrawable = exampleDrawable;
+    }*/
 }

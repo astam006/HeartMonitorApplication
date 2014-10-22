@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.media.MediaPlayer;
 
 
 public class MainMenuActivity extends Activity {
@@ -48,6 +49,7 @@ public class MainMenuActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // Switch to Settings Activity
+                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
             }
         });
     }
@@ -61,6 +63,7 @@ public class MainMenuActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // Switch to help activity.
+                startActivity(new Intent(MainMenuActivity.this, HelpActivity.class));
             }
         });
     }
