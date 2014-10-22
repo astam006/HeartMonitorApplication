@@ -40,6 +40,10 @@
             android:name=".HelpActivity"
             android:label="@string/title_activity_help" >
         </activity>
+        <activity
+            android:name=".RFduinoSettingsActivity"
+            android:label="@string/title_activity_rfduino_settings" >
+        </activity>
     </application>
 
 </manifest>
