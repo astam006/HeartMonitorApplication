@@ -47,7 +47,9 @@ public class MainMenuActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // Switch to Settings Activity
-                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
+                //startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
+                /**Testing the RFDuino*/
+                startActivity(new Intent(MainMenuActivity.this, RFduinoSettingsActivity.class));
             }
         });
     }

@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.util.Log;
+
 import java.util.UUID;
 
 
@@ -73,6 +75,7 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
         public void onReceive(Context context, Intent intent) {
             scanning = (bluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_NONE);
             scanStarted &= scanning;
+            Log.d("scanStarted Value", "scanStarted = " + scanStarted);     // Debug logging
             updateUi();
         }
     };
@@ -112,7 +115,7 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_rfduino_settings);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -136,8 +139,11 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
             public void onClick(View v) {
                 scanStarted = true;
                 bluetoothAdapter.startLeScan(
-                        new UUID[]{ RFduinoService.UUID_SERVICE },
-                        RFduinoSettingsActivity.this);
+                    new UUID[]{RFduinoService.UUID_SERVICE},
+                            RFduinoSettingsActivity.this);
+                Log.d("scanStarted Value", "scanStarted = " + scanStarted);     // Debug logging
+                Log.d("Scan Value: ", "scanning = " + scanning);        // Logging used for debugging
+                updateUi();
             }
         });
 
@@ -159,7 +165,7 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
         });
 
         // Send
-        valueEdit = (EditData) findViewById(R.id.value);
+        /**valueEdit = (EditData) findViewById(R.id.value);
         valueEdit.setImeOptions(EditorInfo.IME_ACTION_SEND);
         valueEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -170,9 +176,9 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
                 }
                 return false;
             }
-        });
+        });*/
 
-        sendZeroButton = (Button) findViewById(R.id.sendZero);
+        /*sendZeroButton = (Button) findViewById(R.id.sendZero);
         sendZeroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +203,7 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
             }
         });
 
-        dataLayout = (LinearLayout) findViewById(R.id.dataLayout);
+        dataLayout = (LinearLayout) findViewById(R.id.dataLayout);*/
     }
 
     @Override
@@ -273,8 +279,8 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
         connectButton.setEnabled(bluetoothDevice != null && state == STATE_DISCONNECTED);
 
         // Send
-        sendZeroButton.setEnabled(connected);
-        sendValueButton.setEnabled(connected);
+        //sendZeroButton.setEnabled(connected);
+        //sendValueButton.setEnabled(connected);
     }
 
     private void addData(byte[] data) {
@@ -289,8 +295,8 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
             text2.setText(ascii);
         }
 
-        dataLayout.addView(
-                view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //dataLayout.addView(
+               // view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
     @Override
