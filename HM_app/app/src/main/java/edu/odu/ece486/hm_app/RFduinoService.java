@@ -26,7 +26,7 @@ import java.util.UUID;
 /**
  * Created by Larry on 10/8/2014.
  */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+//@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class RFduinoService extends Service {
     private final static String TAG = RFduinoService.class.getSimpleName();
 
