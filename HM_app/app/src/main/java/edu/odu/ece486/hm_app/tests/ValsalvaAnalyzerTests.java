@@ -1,6 +1,6 @@
 package edu.odu.ece486.hm_app.tests;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,16 @@ import java.util.Random;
 import edu.odu.ece486.hm_app.ValsalvaAnalyzer;
 
 /**
- * Created by Larry on 1/17/2015. This class contains the unit tests for the ValsalvaAnalysis class.
+ * Created by Larry on 1/17/2015. This class contains the unit tests for the ValsalvaAnalyzer class.
  */
-public class ValsalvaAnalyzerTests extends InstrumentationTestCase {
-    public void testGetMaxInRange() throws Exception {
-        List<Integer> testSignal = new ArrayList<Integer>();
+public class ValsalvaAnalyzerTests extends AndroidTestCase {
+
+    List<Integer> testSignal;
+    ValsalvaAnalyzer analyzer;
+
+    protected void setUp() throws Exception
+    {
+        testSignal = new ArrayList<Integer>();
         Random generator = new Random();
         for(int i = 0; i < 700; i++){  //Add 700 random integers to the list
             int j = generator.nextInt(50) + 4; //random number between 4 and 54
@@ -26,8 +31,12 @@ public class ValsalvaAnalyzerTests extends InstrumentationTestCase {
             testSignal.add(j);
         }
 
-        ValsalvaAnalyzer va = new ValsalvaAnalyzer();
-        Integer maxInRange = va.getMaxInRange(testSignal,675,725);
+        analyzer = new ValsalvaAnalyzer();
+    }
+
+    public void testGetMaxInRange() throws Exception {
+
+        Integer maxInRange = analyzer.getMaxInRange(testSignal,675,725);
         assertEquals(60,maxInRange.intValue());
     }
 }
