@@ -3,7 +3,8 @@ package edu.odu.ece486.hm_app;
 import java.util.List;
 
 /**
- * Created by Larry on 1/17/2015.
+ * Created by Larry on 1/17/2015. This class will contain all of the required functions to perform
+ * analysis on data gathered from the peripheral devices during the valsalva test.
  */
 public class ValsalvaAnalyzer {
 
