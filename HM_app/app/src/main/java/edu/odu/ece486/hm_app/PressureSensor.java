@@ -4,10 +4,10 @@ package edu.odu.ece486.hm_app;
  * Created by Larry on 10/8/2014.
  */
 public class PressureSensor {
-    public int mmHg;
+    private int mmHg;
 
-    public void update(byte newPressure) {
-        mmHg = (int)newPressure;
+    public void update(int newPressure) {
+        mmHg = newPressure;
     }
 
     public int getPressure() {
