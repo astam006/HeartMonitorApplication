@@ -28,6 +28,13 @@ public class TestView extends View {
     private float left;
     private float right;
 
+    // Screen size variables
+    private int screenHeight;
+    private int screenWidth;
+
+    // Pressure bar scaling interval
+    private float pressureIncrement;
+
     // Index variable used for initialization
     private int index = 0;
 
@@ -39,21 +46,28 @@ public class TestView extends View {
     //private int passingPressureHeight =  getHeight() / 3;
     private Paint paint = new Paint();
 
+    // Pressure sensor object used to received data.
+    private PressureSensor pressureSensor;
+    private int pressure = 0;
+
 /****************************************************************************************/
 
     public TestView(Context context) {
         super(context);
         init(null, 0);
+        pressureSensor = new PressureSensor();
     }
 
     public TestView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
+        pressureSensor = new PressureSensor();
     }
 
     public TestView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
+        pressureSensor = new PressureSensor();
     }
 
 /****************************************************************************************/
@@ -99,8 +113,14 @@ public class TestView extends View {
 
         int contentWidth = getWidth();
         int contentHeight = getHeight();
+        screenWidth = contentWidth;
+        screenHeight = contentHeight;
 
+        // Set passing pressure bar at 1/3 from the top of the screen.
         int passingPressureHeight = contentHeight / 3;
+
+        // Have the maximum pressure be 30 mmHg.
+        pressureIncrement = contentHeight / 30;
 
         // Initialization of Rectangle boundaries.
         if(index == 0) {
@@ -160,7 +180,7 @@ public class TestView extends View {
      */
     private void update() {
         // Make the Rectangle grow and shrink vertically.
-        if(direction == 0) {
+        /*if(direction == 0) {
             if(top > 20 && top < (bottom + 50))
                 top -= bottom / 30;
             else
@@ -170,7 +190,14 @@ public class TestView extends View {
                 top += bottom / 30;
             else
                 direction = 0;
-        }
+        }*/
+
+        // Value should be between 0 and 30
+        pressure = pressureSensor.getPressure();
+
+        // Move the top of the rectangle up towards the top of the screen '-'
+        top = screenHeight - (pressure * pressureIncrement);
+
     }
 
 /****************************************************************************************/
