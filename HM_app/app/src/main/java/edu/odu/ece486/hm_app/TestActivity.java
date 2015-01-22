@@ -9,6 +9,8 @@ import android.view.View;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class TestActivity extends Activity {
 
     @Override

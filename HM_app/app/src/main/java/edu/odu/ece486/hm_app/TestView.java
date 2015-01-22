@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+import android.app.AlertDialog;
 
 
 /**
@@ -21,6 +22,9 @@ public class TestView extends View {
     private int mExampleColor = Color.RED; // TODO: use a default from R.color...
     private float mExampleDimension = 0; // TODO: use a default from R.dimen...
     private Drawable mExampleDrawable;
+
+    // Alert Dialog object used to display a warning with low input pressure.
+    private AlertDialog lowPressureAlert;
 
     // Rectangle boundaries variables.
     private float top;
@@ -50,27 +54,35 @@ public class TestView extends View {
     private PressureSensor pressureSensor;
     private int pressure = 0;
 
-/****************************************************************************************/
-
     public TestView(Context context) {
         super(context);
         init(null, 0);
         pressureSensor = new PressureSensor();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Low Pressure Warning");
+        alertDialogBuilder.setMessage("Try Harder!").setCancelable(false);
+        lowPressureAlert = alertDialogBuilder.create();
     }
 
     public TestView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
         pressureSensor = new PressureSensor();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Low Pressure Warning");
+        alertDialogBuilder.setMessage("Try Harder!").setCancelable(false);
+        lowPressureAlert = alertDialogBuilder.create();
     }
 
     public TestView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
         pressureSensor = new PressureSensor();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Low Pressure Warning");
+        alertDialogBuilder.setMessage("Try Harder!").setCancelable(false);
+        lowPressureAlert = alertDialogBuilder.create();
     }
-
-/****************************************************************************************/
 
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
@@ -104,8 +116,6 @@ public class TestView extends View {
         // Update TextPaint and text measurements from attributes
         //invalidateTextPaintAndMeasurements();
     }
-
-/****************************************************************************************/
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -172,8 +182,6 @@ public class TestView extends View {
         requestLayout();    // Maintain stability with layout.
     }
 
-/****************************************************************************************/
-
     /**
      * Update function used to animate the pressure bar based upon the values received
      * from the air pressure sensor.
@@ -192,8 +200,21 @@ public class TestView extends View {
                 direction = 0;
         }*/
 
-        // Value should be between 0 and 30
+        // Retrieve next air pressure value from sensor.
+        // Value should be between 0 and 30.
         pressure = pressureSensor.getPressure();
+
+        /**
+         * If pressure is below minimum requirement, display a warning
+         * message. Warning automatically disappears once acceptable
+         * pressure levels are once again achieved.
+         */
+        if(pressure < 20) {
+            lowPressureAlert.show();
+            lowPressureAlert.getWindow().setLayout(700, 350);
+        }
+        else
+            lowPressureAlert.dismiss();
 
         // Move the top of the rectangle up towards the top of the screen '-'
         top = screenHeight - (pressure * pressureIncrement);
