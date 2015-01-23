@@ -10,6 +10,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.app.AlertDialog;
+import android.view.Window;
 
 
 /**
@@ -18,9 +19,9 @@ import android.app.AlertDialog;
  * the activity will use the activity_test.xml.
  */
 public class TestView extends View {
-    private String mExampleString; // TODO: use a default from R.string...
+    private String mExampleString;         // TODO: use a default from R.string...
     private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
+    private float mExampleDimension = 0;   // TODO: use a default from R.dimen...
     private Drawable mExampleDrawable;
 
     // Alert Dialog object used to display a warning with low input pressure.
@@ -58,30 +59,21 @@ public class TestView extends View {
         super(context);
         init(null, 0);
         pressureSensor = new PressureSensor();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Low Pressure Warning");
-        alertDialogBuilder.setMessage("Try Harder!").setCancelable(false);
-        lowPressureAlert = alertDialogBuilder.create();
+        lowPressureAlert = createAlertDialog(context);
     }
 
     public TestView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
         pressureSensor = new PressureSensor();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Low Pressure Warning");
-        alertDialogBuilder.setMessage("Try Harder!").setCancelable(false);
-        lowPressureAlert = alertDialogBuilder.create();
+        lowPressureAlert = createAlertDialog(context);
     }
 
     public TestView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
         pressureSensor = new PressureSensor();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Low Pressure Warning");
-        alertDialogBuilder.setMessage("Try Harder!").setCancelable(false);
-        lowPressureAlert = alertDialogBuilder.create();
+        lowPressureAlert = createAlertDialog(context);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
@@ -200,19 +192,24 @@ public class TestView extends View {
                 direction = 0;
         }*/
 
+        /**
+         * Simple debugging signal simulation.
+         */
         // Retrieve next air pressure value from sensor.
         // Value should be between 0 and 30.
-        pressure = pressureSensor.getPressure();
+        //pressure = pressureSensor.getPressure();
+        if(pressure < 30)
+            pressure++;
+        else if(pressure == 30)
+            pressure = 0;
 
         /**
          * If pressure is below minimum requirement, display a warning
          * message. Warning automatically disappears once acceptable
          * pressure levels are once again achieved.
          */
-        if(pressure < 20) {
+        if(pressure < 20)
             lowPressureAlert.show();
-            lowPressureAlert.getWindow().setLayout(700, 350);
-        }
         else
             lowPressureAlert.dismiss();
 
@@ -221,7 +218,19 @@ public class TestView extends View {
 
     }
 
-/****************************************************************************************/
+    /**
+     * Creating a new AlertDialog object.
+     *
+     * @param context
+     * @return a new AlertDialog object.
+     */
+    public AlertDialog createAlertDialog(Context context) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Low Pressure Warning")
+            .setMessage("Hold pressure above the white line!").setCancelable(false)
+            .setIcon(R.drawable.ic_action);
+        return alertDialogBuilder.create();
+    }
 
     /**
      * Gets the example string attribute value.

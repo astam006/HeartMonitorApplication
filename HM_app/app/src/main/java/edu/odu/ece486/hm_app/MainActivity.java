@@ -1,9 +1,12 @@
 package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     // Default view to the splash page.
+
+        // Applying custom style to the welcome dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(this, R.style.CenterTranslucentTheme));
 
         // Create a thread that sleeps for 5 seconds before transitioning to the
         // main menu activity. An intent is basically a request for the app to
