@@ -12,5 +12,12 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="title_activity_rfduino_settings">RFduinoSettingsActivity</string>
+    <string name="continue_button">Continue</string>
 
+    <string name="welcome_message">
+    Welcome to the Mobile Heart Monitor!\n\n
+    This application will help monitor the status of your heart by having your perform
+    a Valsalva Maneuver. If you would like to know more about the application, please click
+    the Help icon on the next screen. Please press the Continue button below to get started!
+    </string>
 </resources>

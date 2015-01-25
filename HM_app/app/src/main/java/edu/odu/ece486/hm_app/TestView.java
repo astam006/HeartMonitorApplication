@@ -10,7 +10,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.app.AlertDialog;
-import android.view.Window;
 
 
 /**
@@ -228,7 +227,7 @@ public class TestView extends View {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Low Pressure Warning")
             .setMessage("Hold pressure above the white line!").setCancelable(false)
-            .setIcon(R.drawable.ic_action);
+            .setIcon(R.drawable.ic_warning);
         return alertDialogBuilder.create();
     }
 

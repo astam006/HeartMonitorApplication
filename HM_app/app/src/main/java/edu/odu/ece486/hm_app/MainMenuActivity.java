@@ -77,6 +77,7 @@ public class MainMenuActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
+                System.exit(0);
             }
         });
     }

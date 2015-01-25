@@ -3,6 +3,7 @@ package edu.odu.ece486.hm_app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,12 +22,26 @@ public class MainActivity extends Activity {
 
         // Applying custom style to the welcome dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(this, R.style.CenterTranslucentTheme));
+                new ContextThemeWrapper(this, R.style.CenterLightTheme));
+        builder.setTitle("Welcome to the Mobile Heart Monitor!")
+               .setMessage("This application will help you monitor the current status of your" +
+                       "heart. In order to test your heart, you will be conducting a Valsalva" +
+                       "maneuver, to get started, press the Continue button below.")
+               .setPositiveButton(R.string.continue_button, new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialogInterface, int i) {
+                       startActivity(new Intent(MainActivity.this, MainMenuActivity.class));
+                       finish();
+                   }
+               });
+
+        AlertDialog welcomeDialog = builder.create();
+        welcomeDialog.show();
 
         // Create a thread that sleeps for 5 seconds before transitioning to the
         // main menu activity. An intent is basically a request for the app to
         // change activities.
-        Thread splashTimer = new Thread() {
+        /**Thread splashTimer = new Thread() {
           public void run(){
               try{
                   sleep(2000);
@@ -39,7 +54,7 @@ public class MainActivity extends Activity {
               }
           }
         };
-        splashTimer.start();        // Starting the thread.
+        splashTimer.start();        // Starting the thread.*/
     }
 
     @Override

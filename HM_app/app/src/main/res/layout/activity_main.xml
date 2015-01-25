@@ -10,23 +10,77 @@
     android:id="@+id/layout_1"
     android:background="#e11c3eba">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:id="@+id/textView"
+        android:src="@drawable/dialog_welcome_title"
+        android:id="@+id/welcomeTitle"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" 
-        android:textSize="25sp"
-        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
         android:gravity="center"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/welcome_icon"/>
+        android:id="@+id/welcomeIconView"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/welcome_icon"
+        android:layout_below="@+id/welcomeTitle"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:src="@drawable/label_josh"
+        android:id="@+id/joshLabel"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/welcomeIconView"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:id="@+id/larryLabel"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/label_larry"
+        android:layout_below="@+id/joshLabel"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:id="@+id/brianLabel"
+        android:src="@drawable/label_brian"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/larryLabel"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:id="@+id/codyLabel"
+        android:src="@drawable/label_cody"
+        android:layout_below="@+id/brianLabel"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
+        android:id="@+id/russLabel"
+        android:src="@drawable/label_russ"
+        android:layout_below="@+id/codyLabel"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:id="@+id/ajLabel"
+        android:src="@drawable/label_aj"
+        android:layout_below="@+id/russLabel"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
