@@ -48,6 +48,13 @@
             android:name=".RFduinoSettingsActivity"
             android:label="@string/title_activity_rfduino_settings" >
         </activity>
+        <service
+            android:name=".RFduinoService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

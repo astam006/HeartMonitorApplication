@@ -156,7 +156,7 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
                 v.setEnabled(false);
                 connectionStatusText.setText("Pushed Connect Button...");
                 Intent rfduinoIntent = new Intent(RFduinoSettingsActivity.this, RFduinoService.class);
-                bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
+                getApplicationContext().bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
             }
         });
 
