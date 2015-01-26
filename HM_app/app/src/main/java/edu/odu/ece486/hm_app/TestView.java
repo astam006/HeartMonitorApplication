@@ -45,8 +45,6 @@ public class TestView extends View {
     // Flag used to alternate direction.
     private int direction = 0;              // 0 = Up; 1 = down;
 
-    private TextPaint mTextPaint;
-
     //private int passingPressureHeight =  getHeight() / 3;
     private Paint paint = new Paint();
 
@@ -72,6 +70,8 @@ public class TestView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
+        TextPaint mTextPaint;
+
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.TestView, defStyle, 0);
@@ -192,12 +192,12 @@ public class TestView extends View {
          */
         // Retrieve next air pressure value from sensor.
         // Value should be between 0 and 30.
-        pressure = ValsalvaDataHolder.getInstance().getPressure().intValue();
+        pressure = ValsalvaDataHolder.getInstance().getPressure();  //Removed: .intValue();
 
         /*if(pressure < 30)
             pressure++;
         else if(pressure == 30)
-            pressure = 0; */
+            pressure = 0;*/
 
         /**
          * If pressure is below minimum requirement, display a warning
