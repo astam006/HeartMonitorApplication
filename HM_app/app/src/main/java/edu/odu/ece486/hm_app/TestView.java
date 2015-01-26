@@ -51,27 +51,23 @@ public class TestView extends View {
     private Paint paint = new Paint();
 
     // Pressure sensor object used to received data.
-    private PressureSensor pressureSensor;
     private int pressure = 0;
 
     public TestView(Context context) {
         super(context);
         init(null, 0);
-        pressureSensor = new PressureSensor();
         lowPressureAlert = createAlertDialog(context);
     }
 
     public TestView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
-        pressureSensor = new PressureSensor();
         lowPressureAlert = createAlertDialog(context);
     }
 
     public TestView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
-        pressureSensor = new PressureSensor();
         lowPressureAlert = createAlertDialog(context);
     }
 
@@ -196,11 +192,12 @@ public class TestView extends View {
          */
         // Retrieve next air pressure value from sensor.
         // Value should be between 0 and 30.
-        //pressure = pressureSensor.getPressure();
-        if(pressure < 30)
+        pressure = ValsalvaDataHolder.getInstance().getPressure().intValue();
+
+        /*if(pressure < 30)
             pressure++;
         else if(pressure == 30)
-            pressure = 0;
+            pressure = 0; */
 
         /**
          * If pressure is below minimum requirement, display a warning

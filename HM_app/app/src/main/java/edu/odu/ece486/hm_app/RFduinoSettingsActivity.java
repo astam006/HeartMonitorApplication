@@ -106,10 +106,21 @@ public class RFduinoSettingsActivity extends Activity implements BluetoothAdapte
             } else if (RFduinoService.ACTION_DISCONNECTED.equals(action)) {
                 downgradeState(STATE_DISCONNECTED);
             } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
-                addData(intent.getByteArrayExtra(RFduinoService.EXTRA_DATA));
+                decipherHeartData(intent.getByteArrayExtra(RFduinoService.EXTRA_DATA));
+                //addData(intent.getByteArrayExtra(RFduinoService.EXTRA_DATA));
+
             }
         }
     };
+
+    private void decipherHeartData(byte[] byteArrayExtra) {
+        if((char)byteArrayExtra[0] == 'p')
+        {
+            Log.d("Pressure", "New pressure = " + (int)byteArrayExtra[1]);
+            int pressure = (int)byteArrayExtra[1];
+            ValsalvaDataHolder.getInstance().updatePressure(pressure);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
