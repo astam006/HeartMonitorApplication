@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@android:color/white"
+    tools:context="edu.odu.ece486.hm_app.ResultsActivity">
+
+    <TextView android:text="Test Results" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultsTitle"
+        android:textSize="35sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:typeface="sans"
+        android:layout_alignTop="@+id/resultsIconView"
+        android:layout_toEndOf="@+id/resultsIconView"
+        android:layout_alignParentStart="true"
+        android:gravity="center_horizontal" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultsListView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/resultsIconView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultsIconView"
+        android:src="@drawable/ic_results"
+        android:maxHeight="40dp"
+        android:maxWidth="64dp"
+        android:adjustViewBounds="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

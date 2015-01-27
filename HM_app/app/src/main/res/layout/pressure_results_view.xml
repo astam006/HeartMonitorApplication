@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:id="@+id/">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/airResultsIconView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_air" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Air Pressure"
+        android:id="@+id/airPressureView"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/airResultsIconView"
+        android:layout_alignBottom="@+id/airResultsIconView"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Average Air Pressure........................................."
+        android:id="@+id/airPressureLabelView"
+        android:layout_below="@+id/airResultsIconView"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFFFFF"
+        android:layout_toStartOf="@+id/avgMmHgDataView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Maximum Air Pressure....................................."
+        android:id="@+id/maxAirPressureLabelView"
+        android:textColor="#FFFFFF"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/airPressureLabelView"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/avgMmHgDataView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/avgMmHgDataView"
+        android:layout_above="@+id/maxAirPressureLabelView"
+        android:layout_alignParentEnd="true"
+        android:textColor="#FFFFFF"
+        android:layout_alignTop="@+id/airPressureLabelView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/maxMmHgDataView"
+        android:textColor="#FFFFFF"
+        android:paddingTop="0dp"
+        android:layout_alignBottom="@+id/maxAirPressureLabelView"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="(mmHg)"
+        android:id="@+id/mmHgLabelView"
+        android:textColor="#FFFFFF"
+        android:layout_alignBottom="@+id/airPressureView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Values over 20mmHg(%).................................."
+        android:id="@+id/pressPercentLabelView"
+        android:textColor="#FFFFFF"
+        android:paddingTop="5dp"
+        android:layout_alignBottom="@+id/mmHgPercentDataView"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/mmHgPercentDataView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/mmHgPercentDataView"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/maxMmHgDataView"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="5dp" />
+</RelativeLayout>
