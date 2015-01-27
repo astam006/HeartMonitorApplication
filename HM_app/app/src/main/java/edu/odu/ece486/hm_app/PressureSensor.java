@@ -1,16 +1,24 @@
 package edu.odu.ece486.hm_app;
 
-/**
- * Created by Larry on 10/8/2014.
- */
+import java.util.ArrayList;
+
+
 public class PressureSensor {
+
 
     private int mmHg;
     private int maxPressure;
 
+    //public static void main(Integer args[]){
+    // creating empty arraylist
+    //  ArrayList<Integer> list = new ArrayList<Integer>();
+    //  }
+
     public PressureSensor() {
         mmHg = 0;
     }
+
+
 
     public void update(int newPressure) {
         adjustMax(newPressure);
