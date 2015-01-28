@@ -13,10 +13,14 @@ import java.text.DecimalFormat;
 
 public class TestActivity extends Activity {
 
+    private cBaseApplication app;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+        app = (cBaseApplication)getApplication();
 
         /**
          * Initialize widgets for manipulation.
@@ -41,6 +45,7 @@ public class TestActivity extends Activity {
             }
         }.start();
         /**-----------------------------------------------------------------*/
+        app.sendBeginDataTransferCommand();
 
     }
 
