@@ -36,4 +36,4 @@ public class ValsalvaAnalyzer {
         Integer min = getMinInRange(signal, lower, upper);
         return new Integer(max-min);
     }
-}
+   }
