@@ -8,14 +8,29 @@ public class PressureSensor {
 
     private int mmHg;
     private int maxPressure;
+    private int count;
 
-    //public static void main(Integer args[]){
-    // creating empty arraylist
-    //  ArrayList<Integer> list = new ArrayList<Integer>();
-    //  }
+    public boolean checkIfTestFail() {
+
+
+        if (mmHg < 20) {
+            count++;
+            if (count == 100) {
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        else {
+            count = 0;
+            return false;
+        }
+    }
 
     public PressureSensor() {
         mmHg = 0;
+        count = 0;
     }
 
 
@@ -26,6 +41,7 @@ public class PressureSensor {
     }
 
     public int getPressure() {
+
         return mmHg;
     }
 
