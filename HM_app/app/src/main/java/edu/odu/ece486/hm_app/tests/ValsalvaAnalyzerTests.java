@@ -2,7 +2,10 @@ package edu.odu.ece486.hm_app.tests;
 
 import android.test.AndroidTestCase;
 
+import junit.framework.Assert;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -51,5 +54,13 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
     public void testGetAmplitudeInRange() throws Exception {
         Integer amplitude = analyzer.getAmplitudeInRange(testSignal,1002,1005);
         assertEquals(40, amplitude.intValue());
+    }
+
+    public void testGetIntFromThreeBytes() throws Exception {
+        byte[] b = {0, 0, 1, 0, 0, 1, 0};
+        Integer firstThree = analyzer.getIntFromThreeBytes(Arrays.copyOfRange(b,0,3));
+        Assert.assertEquals(firstThree, new Integer(1));
+        Integer lastThree = analyzer.getIntFromThreeBytes(Arrays.copyOfRange(b,4, b.length));
+        Assert.assertEquals(lastThree, new Integer(256));
     }
 }

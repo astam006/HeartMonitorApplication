@@ -36,4 +36,12 @@ public class ValsalvaAnalyzer {
         Integer min = getMinInRange(signal, lower, upper);
         return new Integer(max-min);
     }
+
+    public int getIntFromThreeBytes(byte[] b)
+    {
+        return   b[2] & 0xFF |
+                (b[1] & 0xFF) << 8 |
+                (b[0] & 0xFF) << 16;
+    }
+
    }

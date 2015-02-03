@@ -12,6 +12,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class cBaseApplication extends Application implements BluetoothAdapter.LeScanCallback {
@@ -121,6 +123,15 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
             int pressure = (int)byteArrayExtra[1];
             ValsalvaDataHolder.getInstance().updatePressure(pressure);
         }
+        if((char)byteArrayExtra[0] == 'h')
+        {
+            Log.d("Peripheral Data", "Received new data set from peripherals.");
+            ValsalvaAnalyzer a = new ValsalvaAnalyzer();
+            int pressure = (int)byteArrayExtra[1];
+            int red = a.getIntFromThreeBytes(Arrays.copyOfRange(byteArrayExtra, 2, 5));
+            int ir = a.getIntFromThreeBytes(Arrays.copyOfRange(byteArrayExtra, 5, 8));
+            ValsalvaDataHolder.getInstance().updateFromPeripheral(pressure,ir,red);
+        }
     }
 
     @Override
@@ -191,12 +202,12 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
         Log.d("cBaseApplication", "Verifying BT device is heart.");
         //Verify Device Info
         //TODO: Verify that the scan returned "Heart" bluetooth device prior to connecting.
-        //if(bluetoothDevice.getName() == expectedBluetoothDeviceName) {
+        if(bluetoothDevice.getName().compareTo(expectedBluetoothDeviceName) == 0) {
             //Connect to device.
             Log.d("cBaseApplication", "Connecting to BT Smart Device...");
             Intent rfduinoIntent = new Intent(cBaseApplication.this, RFduinoService.class);
             getApplicationContext().bindService(rfduinoIntent, rfduinoServiceConnection, BIND_AUTO_CREATE);
-        //}
+        }
 
         StatusUpdate();
     }
