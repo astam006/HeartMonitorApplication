@@ -110,13 +110,15 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
                 downgradeState(STATE_DISCONNECTED);
             } else if (RFduinoService.ACTION_DATA_AVAILABLE.equals(action)) {
                 decipherHeartData(intent.getByteArrayExtra(RFduinoService.EXTRA_DATA));
-                //addData(intent.getByteArrayExtra(RFduinoService.EXTRA_DATA));
-
             }
         }
     };
 
     private void decipherHeartData(byte[] byteArrayExtra) {
+        if(byteArrayExtra.length > 8)
+        {
+            Log.d("Bluetooth Data Received", "WARNING: Greater than 8 bytes received!");
+        }
         if((char)byteArrayExtra[0] == 'p')
         {
             Log.d("Pressure", "New pressure = " + (int)byteArrayExtra[1]);
