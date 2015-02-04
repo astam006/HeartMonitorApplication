@@ -1,6 +1,7 @@
 package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,6 +43,7 @@ public class TestActivity extends Activity {
             public void onFinish() {
                 timerView.setTextColor(Color.GREEN);
                 timerView.setText("Done!");
+                startActivity(new Intent(TestActivity.this, ResultsActivity.class));
             }
         }.start();
         /**-----------------------------------------------------------------*/
