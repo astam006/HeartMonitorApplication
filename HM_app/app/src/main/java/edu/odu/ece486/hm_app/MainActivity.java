@@ -15,10 +15,14 @@ import android.widget.Button;;
 
 public class MainActivity extends Activity {
 
+    private cBaseApplication app;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     // Default view to the splash page.
+
+        app = (cBaseApplication)getApplication();
 
         // Create a thread that sleeps for 5 seconds before transitioning to the
         // main menu activity. An intent is basically a request for the app to
@@ -26,9 +30,12 @@ public class MainActivity extends Activity {
         Thread splashTimer = new Thread() {
           public void run(){
               try{
-                  sleep(2000);
+                  // Wait for BT connection before launching Main Menu.
+                  while(app.getState() != 4)
+                      sleep(2000);
                   Intent menuIntent = new Intent("edu.odu.ece486.hm_app.MENU");
                   startActivity(menuIntent);
+                  MainActivity.this.finish();
               } catch (InterruptedException e) {
                   e.printStackTrace();
               } finally {

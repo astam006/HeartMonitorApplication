@@ -57,6 +57,8 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
         }
     };
 
+    public int getState() {return state;}
+
     @Override
     public void onCreate()
     {
@@ -68,6 +70,13 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         String enableStatus = bluetoothAdapter.enable() ? "Enabling bluetooth..." : "Enable failed!";
         Log.d("cBaseApplication", enableStatus);
+
+        // Brief delay to allow slower phones to enable BLE
+        try{
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         registerReceiver(scanModeReceiver, new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED));
         registerReceiver(bluetoothStateReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
@@ -216,6 +225,6 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
 
     public void sendBeginDataTransferCommand() {
         //Send signal to begin data transfer
-        rfduinoService.send(new byte[]{0});
+        rfduinoService.send(new byte[]{'b'});
     }
 }

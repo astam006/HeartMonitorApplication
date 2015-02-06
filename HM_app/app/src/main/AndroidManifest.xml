@@ -10,7 +10,7 @@
         android:required="true" />
 
     <application
-        android:name="edu.odu.ece486.hm_app.cBaseApplication"
+        android:name=".cBaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/heart_icon"
         android:label="@string/app_name"
@@ -64,6 +64,10 @@
         <activity
             android:name=".ResultsActivity"
             android:label="@string/title_activity_results" >
+        </activity>
+        <activity
+            android:name=".TestActivityV2"
+            android:label="Valsalva Test" >
         </activity>
     </application>
 

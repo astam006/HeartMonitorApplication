@@ -1,5 +1,6 @@
 package edu.odu.ece486.hm_app;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
