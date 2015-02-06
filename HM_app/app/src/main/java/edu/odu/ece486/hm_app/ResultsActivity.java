@@ -8,10 +8,15 @@ import android.view.MenuItem;
 
 public class ResultsActivity extends Activity {
 
+    private cBaseApplication app;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        app = (cBaseApplication)getApplication();
+        app.sendEndDataTransferCommand();
     }
 
 

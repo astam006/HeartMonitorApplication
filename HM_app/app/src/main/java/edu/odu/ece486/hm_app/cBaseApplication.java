@@ -136,12 +136,14 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
         }
         if((char)byteArrayExtra[0] == 'h')
         {
-            Log.d("Peripheral Data", "Received new data set from peripherals.");
             ValsalvaAnalyzer a = new ValsalvaAnalyzer();
             int pressure = (int)byteArrayExtra[1];
             int red = a.getIntFromThreeBytes(Arrays.copyOfRange(byteArrayExtra, 2, 5));
             int ir = a.getIntFromThreeBytes(Arrays.copyOfRange(byteArrayExtra, 5, 8));
             ValsalvaDataHolder.getInstance().updateFromPeripheral(pressure,ir,red);
+            Log.d("Peripheral Data", "Pressure: " + pressure +
+                                     " Red: " + red +
+                                     " IR: " + ir);
         }
     }
 
@@ -226,5 +228,10 @@ public class cBaseApplication extends Application implements BluetoothAdapter.Le
     public void sendBeginDataTransferCommand() {
         //Send signal to begin data transfer
         rfduinoService.send(new byte[]{'b'});
+    }
+
+    public void sendEndDataTransferCommand() {
+        //Send signal to end data transfer
+        rfduinoService.send(new byte[]{'e'});
     }
 }
