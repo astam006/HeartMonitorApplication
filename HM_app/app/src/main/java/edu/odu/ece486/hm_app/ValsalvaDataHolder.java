@@ -29,6 +29,16 @@ public class ValsalvaDataHolder {
         redSignal.add(redPoint);
     }
 
+    public void cleanUp()
+    {
+        pressureSensor = null;
+        irSignal.clear();
+        irSignal = null;
+        redSignal.clear();
+        redSignal = null;
+        holder = null;
+    }
+
     private static ValsalvaDataHolder holder = null;
     private static Object mutex = new Object();
     private ValsalvaDataHolder() {}
