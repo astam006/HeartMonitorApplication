@@ -35,6 +35,7 @@ public class MainMenuActivity extends Activity {
                 // Switch to Test Activity
                 //startActivity(new Intent(MainMenuActivity.this, TestActivity.class));
                 startActivity(new Intent(MainMenuActivity.this, TestActivityV2.class));
+                MainMenuActivity.this.finish();
             }
         });
     }
@@ -51,6 +52,7 @@ public class MainMenuActivity extends Activity {
                 //startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
                 /**Testing the RFDuino*/
                 startActivity(new Intent(MainMenuActivity.this, RFduinoSettingsActivity.class));
+                MainMenuActivity.this.finish();
             }
         });
     }
@@ -65,6 +67,7 @@ public class MainMenuActivity extends Activity {
             public void onClick(View view) {
                 // Switch to help activity.
                 startActivity(new Intent(MainMenuActivity.this, HelpActivity.class));
+                MainMenuActivity.this.finish();
             }
         });
     }

@@ -1,9 +1,19 @@
 package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ResultsActivity extends Activity {
@@ -17,6 +27,50 @@ public class ResultsActivity extends Activity {
 
         app = (cBaseApplication)getApplication();
         app.sendEndDataTransferCommand();
+
+        // Variables used to modify the results screen.
+        int calculatedPercentage = 0;
+        int numberRedValues = 0;
+        int numberIRValues = 0;
+        TextView percentageTextView = (TextView)findViewById(R.id.percentageView);
+        TextView numRedValues = (TextView)findViewById(R.id.numRedValues);
+        TextView numIRValues = (TextView)findViewById(R.id.numIRValues);
+        ValsalvaAnalyzer analyzer = new ValsalvaAnalyzer();
+
+        // Implement the return to main menu button
+        implementMainMenuButton();
+
+        // Pull data from the ValsalvaAnalyzer
+        calculatedPercentage = analyzer.getTestResults();
+        numberRedValues = ValsalvaDataHolder.getInstance().getRedSignal().size();
+        numberIRValues = ValsalvaDataHolder.getInstance().getIrSignal().size();
+
+        numRedValues.setText(Long.toString(numberRedValues) + " received Red Values");
+        numIRValues.setText(Long.toString(numberIRValues) + " received IR Values");
+
+        if(calculatedPercentage == -1)
+            percentageTextView.setText("Error during calculation.");
+        else
+            percentageTextView.setText(Long.toString(calculatedPercentage) + "%");
+    }
+
+    /**
+     * Return to the main menu when button is pressed on the results screen.
+     * The testing activity is destroyed when they return to the main menu.
+     */
+    private void implementMainMenuButton() {
+        Button returnButton = (Button) findViewById(R.id.returnToMainMenuButton);
+
+        // Open the Valsalva test activity.
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Switch to Test Activity
+                startActivity(new Intent(ResultsActivity.this, MainMenuActivity.class));
+                ValsalvaDataHolder.getInstance().cleanUp();
+                ResultsActivity.this.finish();
+            }
+        });
     }
 
 
