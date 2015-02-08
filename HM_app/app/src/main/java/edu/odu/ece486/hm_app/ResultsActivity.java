@@ -39,6 +39,7 @@ public class ResultsActivity extends Activity {
 
         // Implement the return to main menu button
         implementMainMenuButton();
+        implementSaveButton();
 
         // Pull data from the ValsalvaAnalyzer
         calculatedPercentage = analyzer.getTestResults();
@@ -52,6 +53,21 @@ public class ResultsActivity extends Activity {
             percentageTextView.setText("Error during calculation.");
         else
             percentageTextView.setText(Long.toString(calculatedPercentage) + "%");
+    }
+
+    /**
+     * Implement the save button functionality
+     */
+    private void implementSaveButton() {
+        Button saveButton = (Button) findViewById(R.id.saveButton);
+
+        // Save the test results
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 
     /**
