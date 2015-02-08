@@ -1,5 +1,7 @@
 package edu.odu.ece486.hm_app;
 
+import android.widget.Toast;
+
 import com.opencsv.CSVWriter;
 
 import java.io.File;
@@ -42,6 +44,7 @@ public class ValsalvaDataHolder {
 
         CSVWriter redWriter;
         if(redFile.exists() && !redFile.isDirectory()){
+            redFile.delete();
             FileWriter mRedFileWriter = new FileWriter(redFilePath , true);
             redWriter = new CSVWriter(mRedFileWriter);
         }
@@ -57,6 +60,7 @@ public class ValsalvaDataHolder {
 
         CSVWriter irWriter;
         if(irFile.exists() && !irFile.isDirectory()){
+            irFile.delete();
             FileWriter mIrFileWriter = new FileWriter(irFilePath , true);
             irWriter = new CSVWriter(mIrFileWriter);
         }

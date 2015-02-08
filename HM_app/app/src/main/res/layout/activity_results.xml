@@ -79,21 +79,30 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="bottom|center"
+        android:textSize="18sp"
+        android:drawableTop="@drawable/ic_back"
+        android:background="@android:color/transparent"
         android:text="Return to Main Menu"
         android:id="@+id/returnToMainMenuButton"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="33dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white" />
+        android:layout_alignParentEnd="true" />
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:gravity="bottom|center"
+        android:textSize="18sp"
+        android:drawableTop="@drawable/ic_save"
+        android:background="@android:color/transparent"
         android:text="Save Test Results"
         android:id="@+id/saveButton"
-        android:layout_above="@+id/returnToMainMenuButton"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_alignBottom="@+id/returnToMainMenuButton"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

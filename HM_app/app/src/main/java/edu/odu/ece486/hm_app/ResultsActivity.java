@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -69,6 +70,8 @@ public class ResultsActivity extends Activity {
             public void onClick(View view) {
                 try {
                     ValsalvaDataHolder.getInstance().save();
+                    Toast.makeText(getApplicationContext(),
+                            "Test Results have been saved.", Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     Log.e("Save Data", e.getMessage());
                 }
