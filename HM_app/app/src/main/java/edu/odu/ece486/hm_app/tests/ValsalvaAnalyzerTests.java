@@ -63,4 +63,12 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Integer lastThree = analyzer.getIntFromThreeBytes(Arrays.copyOfRange(b,4, b.length));
         Assert.assertEquals(lastThree, new Integer(256));
     }
+
+    public void testGetPathLength() throws Exception {
+        int redPoint = 2000;
+        int irPoint = 30000;
+        int resultingPathLength = analyzer.getPathLength(redPoint,irPoint);
+
+
+    }
 }

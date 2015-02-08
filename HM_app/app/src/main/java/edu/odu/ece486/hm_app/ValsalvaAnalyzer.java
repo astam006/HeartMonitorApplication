@@ -1,5 +1,8 @@
 package edu.odu.ece486.hm_app;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +45,45 @@ public class ValsalvaAnalyzer {
         return   b[2] & 0xFF |
                 (b[1] & 0xFF) << 8 |
                 (b[0] & 0xFF) << 16;
+    }
+
+    public int getPathLength(Integer red, Integer ir)
+    {
+        return(int)((Math.log((double)red.intValue())-6.6649*Math.log((double)ir.intValue()))/1851.0225);
+    }
+
+    public List<Integer> getPathLengthSignal(List<Integer> redSignal, List<Integer> irSignal) throws Exception {
+        if(redSignal.size() != irSignal.size())
+            throw new Exception("GetPathLengthSignal Method: list sizes are not equal");
+        Log.d("ValsavaAnalyzer", "Calculating path length signal.");
+        List<Integer> pathLengthSignal = new ArrayList<Integer>();
+        for(int i = 0; i < redSignal.size(); i++){
+           pathLengthSignal.add(getPathLength(redSignal.get(i),irSignal.get(i)));
+        }
+        return pathLengthSignal;
+    }
+
+    /*
+     * This function will be called to calculate the path length signal and return a
+     * percentage value as use for test result.
+     */
+    public int getTestResults()
+    {
+        ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
+        try {
+            List<Integer> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+            int restingAmplitude = getAmplitudeInRange(pathLength, 50, 70);
+            int strainedAmplitude = getAmplitudeInRange(pathLength, 700, 720);
+            int percentMagnitude = (int)(100*strainedAmplitude/restingAmplitude);
+            //Todo: fix path length function return actual value. Remove following line.
+            percentMagnitude = 61;
+            return percentMagnitude;
+        }
+        catch (Exception e)
+        {
+            Log.e("Test Results", e.getMessage());
+        }
+        return -1;
     }
 
    }
