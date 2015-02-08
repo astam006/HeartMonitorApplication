@@ -1,7 +1,10 @@
 package edu.odu.ece486.hm_app;
 
+import com.opencsv.CSVWriter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileWriter;
 
 /**
  * Created by Larry on 1/26/2015. This class will record all necessary data from the valsalva test.
@@ -53,4 +56,18 @@ public class ValsalvaDataHolder {
         }
         return holder;
     }
+
+    public static void main(String[] args) throws Exception
+    {
+        String csv = "data.csv";
+        CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+
+        String [] record = "3,AJ, Larry, Russeell" .split(",");
+
+        writer.writeNext(record);
+
+        writer.close();
+    }
+
+
 }
