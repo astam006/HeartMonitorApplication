@@ -3,6 +3,7 @@ package edu.odu.ece486.hm_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,11 @@ public class ResultsActivity extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                try {
+                    ValsalvaDataHolder.getInstance().save();
+                } catch (IOException e) {
+                    Log.e("Save Data", e.getMessage());
+                }
             }
         });
     }

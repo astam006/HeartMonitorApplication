@@ -2,6 +2,8 @@ package edu.odu.ece486.hm_app;
 
 import com.opencsv.CSVWriter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
@@ -32,6 +34,50 @@ public class ValsalvaDataHolder {
         redSignal.add(redPoint);
     }
 
+    public void save() throws IOException {
+        String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+        String redFileName = "RedValsalvaData.csv";
+        String redFilePath = baseDir + File.separator + redFileName;
+        File redFile = new File(redFilePath);
+
+        CSVWriter redWriter;
+        if(redFile.exists() && !redFile.isDirectory()){
+            FileWriter mRedFileWriter = new FileWriter(redFilePath , true);
+            redWriter = new CSVWriter(mRedFileWriter);
+        }
+        else {
+            redWriter = new CSVWriter(new FileWriter(redFilePath));
+        }
+        redWriter.writeNext(getStringArray(redSignal));
+        redWriter.close();
+
+        String irFileName = "IRValsalvaData.csv";
+        String irFilePath = baseDir + File.separator + irFileName;
+        File irFile = new File(irFilePath);
+
+        CSVWriter irWriter;
+        if(irFile.exists() && !irFile.isDirectory()){
+            FileWriter mIrFileWriter = new FileWriter(irFilePath , true);
+            irWriter = new CSVWriter(mIrFileWriter);
+        }
+        else {
+            irWriter = new CSVWriter(new FileWriter(irFilePath));
+        }
+        irWriter.writeNext(getStringArray(irSignal));
+        irWriter.close();
+    }
+
+    public String[] getStringArray(List<Integer> intArray)
+    {
+        List<Integer> oldList = intArray;
+        List<String> newList = new ArrayList<String>(oldList.size());
+        for (Integer myInt : oldList) {
+            newList.add(String.valueOf(myInt));
+        }
+        String[] stringArray = newList.toArray(new String[newList.size()]);
+        return stringArray;
+    }
+
     public void cleanUp()
     {
         pressureSensor = null;
@@ -57,6 +103,8 @@ public class ValsalvaDataHolder {
         return holder;
     }
 
+
+    //Todo: This is an e
     public static void main(String[] args) throws Exception
     {
         String csv = "data.csv";
