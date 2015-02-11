@@ -1,7 +1,6 @@
 package edu.odu.ece486.hm_app;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -9,6 +8,7 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
@@ -48,7 +48,6 @@ public class ValsalvaDataHolder {
         try {
             CSVWriter writer;
             if (file.exists() && !file.isDirectory()) {
-                file.delete();
                 FileWriter fileWriter = new FileWriter(filePath, true);
                 writer = new CSVWriter(fileWriter);
             } else {
@@ -58,7 +57,7 @@ public class ValsalvaDataHolder {
             String[] irStringArray = getStringArray(irSignal);
 
             for (int i = 0; i < redStringArray.length; i++) {
-                String[] nextLine = new String[2];
+                String[] nextLine = new String[1];
                 nextLine[0] = irStringArray[i];
                 nextLine[1] = redStringArray[i];
                 writer.writeNext(nextLine);
@@ -108,10 +107,8 @@ public class ValsalvaDataHolder {
     }
 
 
-    /*
-     * This function is intended to be used for importing test data rather than
-     * performing the actual test.
-     */
+    //This function is intended to be used for importing test data rather than
+    //performing the actual test.
     public void ImportCSV(String filePath) throws IOException
     {
         try{
