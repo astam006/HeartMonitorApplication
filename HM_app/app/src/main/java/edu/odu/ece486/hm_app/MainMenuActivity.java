@@ -51,7 +51,7 @@ public class MainMenuActivity extends Activity {
                 // Switch to Settings Activity
                 //startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
                 /**Testing the RFDuino*/
-                startActivity(new Intent(MainMenuActivity.this, RFduinoSettingsActivity.class));
+                startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
                 MainMenuActivity.this.finish();
             }
         });

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:id="@+id/testBackground">
+
+    <edu.odu.ece486.hm_app.PressureProgressBar
+        android:progressDrawable="@drawable/custom_red_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pressureProgressBar"
+        android:indeterminateOnly="false"
+        android:max="30"
+        android:minHeight="50dp"
+        android:maxHeight="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Current Air Pressure:"
+        android:id="@+id/pressureMeterTxtView"
+        android:layout_above="@+id/pressureProgressBar"
+        android:layout_alignStart="@+id/pressureProgressBar"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/pressureValueTxt"
+        android:layout_alignTop="@+id/pressureMeterTxtView"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Red Value:"
+        android:id="@+id/redValueLabel"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/toggleButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="56dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="IR Value:"
+        android:id="@+id/irValueLabel"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/redValueLabel"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="36dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/redValue"
+        android:layout_alignBottom="@+id/redValueLabel"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/irValue"
+        android:layout_alignBottom="@+id/irValueLabel"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Packets Received:"
+        android:id="@+id/totalPacketsLabel"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/irValueLabel"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/numPackets"
+        android:layout_alignBottom="@+id/totalPacketsLabel"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Data Transfer"
+        android:id="@+id/dataBttnLabel"
+        android:textColor="@android:color/holo_blue_light"
+        android:paddingTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/continue_button"
+        android:id="@+id/toggleButton"
+        android:checked="false"
+        android:onClick="onToggleClicked"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_below="@+id/dataBttnLabel"
+        android:layout_alignStart="@+id/dataBttnLabel"
+        android:layout_alignEnd="@+id/dataBttnLabel" />
+
+</RelativeLayout>
