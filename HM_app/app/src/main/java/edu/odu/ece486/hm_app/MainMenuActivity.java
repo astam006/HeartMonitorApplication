@@ -22,8 +22,6 @@ public class MainMenuActivity extends Activity {
         implementExitButton();
     }
 
-//==================================================================================================
-
     // Implement Test Button functionality.
     private void implementTestButton() {
         Button testButton = (Button) findViewById(R.id.testButton);
@@ -85,8 +83,6 @@ public class MainMenuActivity extends Activity {
             }
         });
     }
-
-//==================================================================================================
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
