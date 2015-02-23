@@ -52,7 +52,7 @@ public class MainMenuActivity extends Activity {
                 //startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
                 /**Testing the RFDuino*/
                 startActivity(new Intent(MainMenuActivity.this, SettingsActivity.class));
-                MainMenuActivity.this.finish();
+                //MainMenuActivity.this.finish();
             }
         });
     }

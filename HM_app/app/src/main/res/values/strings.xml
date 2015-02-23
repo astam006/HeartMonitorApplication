@@ -10,7 +10,7 @@
     <string name="title_activity_main_menu">Main Menu</string>
     <string name="title_activity_test">Valsalva Test</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_activity_help">Help Menu</string>
     <string name="title_activity_rfduino_settings">RFduinoSettingsActivity</string>
     <string name="continue_button">Continue</string>
     <string name="welcome_message">    Welcome to the Mobile Heart Monitor!\n\n

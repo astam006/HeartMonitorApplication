@@ -1,9 +1,12 @@
 package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class HelpActivity extends Activity {
@@ -12,8 +15,27 @@ public class HelpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+
+        Button testHelpButton, settingsHelpButton, resultsHelpButton, backButton;
+        testHelpButton     = (Button) findViewById(R.id.test_help_button);
+        settingsHelpButton = (Button) findViewById(R.id.settings_help_button);
+        resultsHelpButton  = (Button) findViewById(R.id.results_help_button);
+        backButton         = (Button) findViewById(R.id.return_menu_button);
+
+        implementBackButton(backButton);
     }
 
+    // Return to the Main Menu when the back button is pressed.
+    // Terminate the Help Activity.
+    public void implementBackButton(Button backButton) {
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HelpActivity.this, MainMenuActivity.class));
+                HelpActivity.this.finish();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

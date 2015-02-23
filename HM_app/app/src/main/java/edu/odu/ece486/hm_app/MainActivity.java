@@ -11,11 +11,16 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
     private cBaseApplication app;
+    private ProgressBar spinner;
+    private TextView connectionLabel;
+    private int connectionAttempts = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);     // Default view to the splash page.
 
         app = (cBaseApplication)getApplication();
+        connectionLabel = (TextView) findViewById(R.id.connectingLabel);
+        connectionLabel.setText("Establishing Bluetooth...");
+        spinner = (ProgressBar) findViewById(R.id.connectionSpinner);
+        spinner.setVisibility(View.VISIBLE);
 
         // Create a thread that sleeps for 5 seconds before transitioning to the
         // main menu activity. An intent is basically a request for the app to
@@ -31,8 +40,12 @@ public class MainActivity extends Activity {
           public void run(){
               try{
                   // Wait for BT connection before launching Main Menu.
-                  while(app.getState() != 4)
+                  while(app.getState() != 4) {
+                      if(connectionAttempts == 3)
+                          MainActivity.this.finish();
+                      connectionAttempts++;
                       sleep(2000);
+                  }
                   Intent menuIntent = new Intent("edu.odu.ece486.hm_app.MENU");
                   startActivity(menuIntent);
                   MainActivity.this.finish();
