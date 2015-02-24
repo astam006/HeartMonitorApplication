@@ -68,7 +68,5 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         int redPoint = 2000;
         int irPoint = 30000;
         int resultingPathLength = analyzer.getPathLength(redPoint,irPoint);
-
-
     }
 }

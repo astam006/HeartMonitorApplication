@@ -20,23 +20,27 @@ public class ValsalvaDataHolder {
     private static PressureSensor pressureSensor;
     private static List<Integer> irSignal;
     private static List<Integer> redSignal;
+    private static List<Integer> lungPressureSignal;
 
     public static void initHolder(){
         pressureSensor = new PressureSensor();
         irSignal = new ArrayList<Integer>();
         redSignal = new ArrayList<Integer>();
+        lungPressureSignal = new ArrayList<Integer>();
     }
 
     public Integer getPressure() {return pressureSensor.getPressure();}
     public void updatePressure(int newPressure ) { pressureSensor.update(newPressure);}
     public List<Integer> getIrSignal() { return irSignal; }
     public List<Integer> getRedSignal() { return redSignal; }
+    public List<Integer> getLungPressureSignal() { return lungPressureSignal; }
 
     public void updateFromPeripheral(int newPressure, int irPoint, int redPoint)
     {
         updatePressure(newPressure);
         irSignal.add(irPoint);
         redSignal.add(redPoint);
+        lungPressureSignal.add(newPressure);
     }
 
     // TODO: Add pressure values to the csv save file.
@@ -57,11 +61,13 @@ public class ValsalvaDataHolder {
             }
             String[] redStringArray = getStringArray(redSignal);
             String[] irStringArray = getStringArray(irSignal);
+            String[] lungPressureStringArray = getStringArray(lungPressureSignal);
 
             for (int i = 0; i < redStringArray.length; i++) {
-                String[] nextLine = new String[2];
+                String[] nextLine = new String[3];
                 nextLine[0] = irStringArray[i];
                 nextLine[1] = redStringArray[i];
+                nextLine[2] = lungPressureStringArray[i];
                 writer.writeNext(nextLine);
             }
             writer.close();
@@ -90,6 +96,8 @@ public class ValsalvaDataHolder {
         irSignal = null;
         redSignal.clear();
         redSignal = null;
+        lungPressureSignal.clear();
+        lungPressureSignal = null;
         holder = null;
     }
 
@@ -122,6 +130,7 @@ public class ValsalvaDataHolder {
             {
                 irSignal.add(Integer.parseInt(nextLine[0]));
                 redSignal.add(Integer.parseInt(nextLine[1]));
+                lungPressureSignal.add(Integer.parseInt(nextLine[2]));
             }
         }
         catch(IOException e)
