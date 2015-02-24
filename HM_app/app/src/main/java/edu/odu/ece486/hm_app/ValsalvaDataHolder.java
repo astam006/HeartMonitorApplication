@@ -29,11 +29,12 @@ public class ValsalvaDataHolder {
         lungPressureSignal = new ArrayList<Integer>();
     }
 
-    public Integer getPressure() {return pressureSensor.getPressure();}
+    public Integer getPressure() { return pressureSensor.getPressure(); }
     public void updatePressure(int newPressure ) { pressureSensor.update(newPressure);}
     public List<Integer> getIrSignal() { return irSignal; }
     public List<Integer> getRedSignal() { return redSignal; }
     public List<Integer> getLungPressureSignal() { return lungPressureSignal; }
+    public int getNumberOfPacketReceived() { return irSignal.size(); }
 
     public void updateFromPeripheral(int newPressure, int irPoint, int redPoint)
     {
@@ -43,7 +44,6 @@ public class ValsalvaDataHolder {
         lungPressureSignal.add(newPressure);
     }
 
-    // TODO: Add pressure values to the csv save file.
     public void save() throws IOException {
         String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
         String fileName = "ValsalvaData.csv";

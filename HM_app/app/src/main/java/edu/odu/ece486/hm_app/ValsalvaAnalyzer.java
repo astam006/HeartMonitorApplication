@@ -86,4 +86,20 @@ public class ValsalvaAnalyzer {
         return -1;
     }
 
+    /*
+     * This function will be called to calculate the running average of the most
+     * recent 10 values for a signal. If a signal contains less than 10 values,
+     * the function will return 0.
+     */
+    public Double getRunningAverage(List<Integer> signal) {
+        int size = signal.size();
+        List<Integer> last10 = signal.subList(Math.max(signal.size() - 10, 0), signal.size());
+        int sum = 0;
+        for (Integer p : last10) {
+            sum += p.intValue();
+        }
+        return (double) sum / 10;
+
+     }
+
    }

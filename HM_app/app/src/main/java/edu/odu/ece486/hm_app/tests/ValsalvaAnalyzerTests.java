@@ -69,4 +69,37 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         int irPoint = 30000;
         int resultingPathLength = analyzer.getPathLength(redPoint,irPoint);
     }
+
+    public void testGetRunningPressureAverage() throws Exception {
+        List<Integer> testList = new ArrayList<Integer>();
+        testList.add(20);
+        testList.add(21);
+        testList.add(24);
+        testList.add(25);
+        testList.add(28);
+        testList.add(30);
+        testList.add(34);
+        testList.add(38);
+        testList.add(41);
+        testList.add(42);
+        Assert.assertEquals(30.3,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(46);
+        Assert.assertEquals(32.9,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(50);
+        Assert.assertEquals(35.8,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(60);
+        Assert.assertEquals(39.4,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(74);
+        Assert.assertEquals(44.3,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(75);
+        Assert.assertEquals(49.0,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(77);
+        Assert.assertEquals(53.7,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(81);
+        Assert.assertEquals(58.4,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(88);
+        Assert.assertEquals(63.4,analyzer.getRunningAverage(testList), 0.1);
+        testList.add(91);
+        Assert.assertEquals(68.4,analyzer.getRunningAverage(testList), 0.1);
+    }
 }
