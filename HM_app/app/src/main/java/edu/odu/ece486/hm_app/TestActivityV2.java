@@ -46,7 +46,7 @@ public class TestActivityV2 extends Activity {
         ProgressBarTask pbTask = new ProgressBarTask();
         pbTask.execute();
 
-        new CountDownTimer(15000, 1000) {
+        new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millsUntilFinished) {
                 timerView.setTextColor(Color.RED);

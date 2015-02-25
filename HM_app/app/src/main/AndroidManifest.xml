@@ -40,6 +40,7 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -66,15 +67,22 @@
 
         <activity
             android:name=".ResultsActivity"
-            android:label="@string/title_activity_results" >
+            android:label="@string/title_activity_results"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".TestActivityV2"
-            android:label="Valsalva Test" >
+            android:label="Valsalva Test"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".DebuggerTest"
             android:label="@string/title_activity_debugger_test" >
+        </activity>
+        <activity
+            android:name="org.achartengine.GraphicalActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
     </application>
 
