@@ -164,7 +164,7 @@ public class ResultsActivity extends Activity {
         // Total number of data points to plot.
         int numPoints = ValsalvaDataHolder.getInstance().getRedSignal().size();
         // Get the Red Values list
-        List<Integer> redData = ValsalvaDataHolder.getInstance().getRedSignal();
+        List<Double> redData = ValsalvaDataHolder.getInstance().getRedSignal();
         //Creating an XY Series for the Red Data
         XYSeries redSeries = new XYSeries("Red Signal");
         // Adding data to the series.
@@ -219,7 +219,7 @@ public class ResultsActivity extends Activity {
         // Total number of data points to plot.
         int numPoints = ValsalvaDataHolder.getInstance().getIrSignal().size();
         // Get the IR Values list.
-        List<Integer> irData = ValsalvaDataHolder.getInstance().getIrSignal();
+        List<Double> irData = ValsalvaDataHolder.getInstance().getIrSignal();
         // Creating an XY Series for the IR Data.
         XYSeries irSeries = new XYSeries("IR Signal");
         // Adding data to the series.

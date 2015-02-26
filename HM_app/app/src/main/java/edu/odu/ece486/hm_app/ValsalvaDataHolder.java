@@ -18,31 +18,29 @@ import java.io.FileWriter;
  */
 public class ValsalvaDataHolder {
     private static PressureSensor pressureSensor;
-    private static List<Integer> irSignal;
-    private static List<Integer> redSignal;
+    private static List<Double> irSignal;
+    private static List<Double> redSignal;
     private static List<Integer> lungPressureSignal;
 
     public static void initHolder(){
         pressureSensor = new PressureSensor();
-        irSignal = new ArrayList<Integer>();
-        redSignal = new ArrayList<Integer>();
+        irSignal = new ArrayList<Double>();
+        redSignal = new ArrayList<Double>();
         lungPressureSignal = new ArrayList<Integer>();
     }
 
     public Integer getPressure() { return pressureSensor.getPressure(); }
     public void updatePressure(int newPressure ) { pressureSensor.update(newPressure);}
-    public List<Integer> getIrSignal() { return irSignal; }
-    public List<Integer> getRedSignal() { return redSignal; }
+    public List<Double> getIrSignal() { return irSignal; }
+    public List<Double> getRedSignal() { return redSignal; }
     public List<Integer> getLungPressureSignal() { return lungPressureSignal; }
     public int getNumberOfPacketReceived() { return irSignal.size(); }
 
     public void updateFromPeripheral(int newPressure, int irPoint, int redPoint)
     {
         updatePressure(newPressure);
-        //irPoint = irPoint / 65536;
-        //redPoint = redPoint / 65536;
-        irSignal.add(irPoint);
-        redSignal.add(redPoint);
+        irSignal.add(new Double(irPoint/65536));
+        redSignal.add(new Double(redPoint/65536));
         lungPressureSignal.add(newPressure);
     }
 
@@ -61,9 +59,9 @@ public class ValsalvaDataHolder {
             } else {
                 writer = new CSVWriter(new FileWriter(filePath));
             }
-            String[] redStringArray = getStringArray(redSignal);
-            String[] irStringArray = getStringArray(irSignal);
-            String[] lungPressureStringArray = getStringArray(lungPressureSignal);
+            String[] redStringArray = getStringArrayFromDoubles(redSignal);
+            String[] irStringArray = getStringArrayFromDoubles(irSignal);
+            String[] lungPressureStringArray = getStringArrayFromInts(lungPressureSignal);
 
             for (int i = 0; i < redStringArray.length; i++) {
                 String[] nextLine = new String[3];
@@ -80,12 +78,23 @@ public class ValsalvaDataHolder {
         }
     }
 
-    public String[] getStringArray(List<Integer> intArray)
+    public String[] getStringArrayFromInts(List<Integer> intArray)
     {
         List<Integer> oldList = intArray;
         List<String> newList = new ArrayList<String>(oldList.size());
         for (Integer myInt : oldList) {
             newList.add(String.valueOf(myInt));
+        }
+        String[] stringArray = newList.toArray(new String[newList.size()]);
+        return stringArray;
+    }
+
+    public String[] getStringArrayFromDoubles(List<Double> doubleArray)
+    {
+        List<Double> oldList = doubleArray;
+        List<String> newList = new ArrayList<String>(oldList.size());
+        for (Double myDouble : oldList) {
+            newList.add(String.valueOf(myDouble));
         }
         String[] stringArray = newList.toArray(new String[newList.size()]);
         return stringArray;
@@ -130,8 +139,8 @@ public class ValsalvaDataHolder {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null)
             {
-                irSignal.add(Integer.parseInt(nextLine[0]));
-                redSignal.add(Integer.parseInt(nextLine[1]));
+                irSignal.add(Double.parseDouble(nextLine[0]));
+                redSignal.add(Double.parseDouble(nextLine[1]));
                 lungPressureSignal.add(Integer.parseInt(nextLine[2]));
             }
         }

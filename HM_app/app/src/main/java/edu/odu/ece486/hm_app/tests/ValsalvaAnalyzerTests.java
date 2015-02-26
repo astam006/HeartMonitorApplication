@@ -16,43 +16,43 @@ import edu.odu.ece486.hm_app.ValsalvaAnalyzer;
  */
 public class ValsalvaAnalyzerTests extends AndroidTestCase {
 
-    List<Integer> testSignal;
+    List<Double> testSignal;
     ValsalvaAnalyzer analyzer;
 
     protected void setUp() throws Exception
     {
-        testSignal = new ArrayList<Integer>();
+        testSignal = new ArrayList<Double>();
         Random generator = new Random();
         for(int i = 0; i < 700; i++){  //Add 0-699 random integers to the list
-            int j = generator.nextInt(50) + 4; //random number between 4 and 54
+            Double j = generator.nextDouble()*50 + 4.0; //random number between 4 and 54
             testSignal.add(j);
         }
-        testSignal.add(2);  //Minimum number in testSignal is 2 at position 700
-        testSignal.add(60); //Maximum number in testSignal is 60 at position 701
+        testSignal.add(2.0);  //Minimum number in testSignal is 2 at position 700
+        testSignal.add(60.0); //Maximum number in testSignal is 60 at position 701
         for(int i = 0; i < 300; i++){  //Add 702-1001 random integers to the list
-            int j = generator.nextInt(50) + 4; //random number between 4 and 54
+            Double j = generator.nextDouble()*50 + 4; //random number between 4 and 54
             testSignal.add(j);
         }
-        testSignal.add(200); //Added for amplitude test 1002
-        testSignal.add(220); //Added for amplitude test 1003
-        testSignal.add(240); //Added for amplitude test 1004
-        testSignal.add(210); //Added for amplitude test 1005
+        testSignal.add(200.0); //Added for amplitude test 1002
+        testSignal.add(220.0); //Added for amplitude test 1003
+        testSignal.add(240.0); //Added for amplitude test 1004
+        testSignal.add(210.0); //Added for amplitude test 1005
 
         analyzer = new ValsalvaAnalyzer();
     }
 
     public void testGetMaxInRange() throws Exception {
-        Integer maxInRange = analyzer.getMaxInRange(testSignal,675,725);
-        assertEquals(60,maxInRange.intValue());
+        Double maxInRange = analyzer.getMaxInRange(testSignal,675,725);
+        assertEquals(60.0,maxInRange);
     }
 
     public void testGetMinInRange() throws Exception {
-        Integer minInRange = analyzer.getMinInRange(testSignal,675,725);
+        Double minInRange = analyzer.getMinInRange(testSignal,675,725);
         assertEquals(2,minInRange.intValue());
     }
 
     public void testGetAmplitudeInRange() throws Exception {
-        Integer amplitude = analyzer.getAmplitudeInRange(testSignal,1002,1005);
+        Double amplitude = analyzer.getAmplitudeInRange(testSignal,1002,1005);
         assertEquals(40, amplitude.intValue());
     }
 
@@ -65,41 +65,41 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
     }
 
     public void testGetPathLength() throws Exception {
-        int redPoint = 2000;
-        int irPoint = 30000;
-        int resultingPathLength = analyzer.getPathLength(redPoint,irPoint);
+        Double redPoint = 2000.0;
+        Double irPoint = 30000.0;
+        Double resultingPathLength = analyzer.getPathLength(redPoint,irPoint);
     }
 
     public void testGetRunningPressureAverage() throws Exception {
-        List<Integer> testList = new ArrayList<Integer>();
-        testList.add(20);
-        testList.add(21);
-        testList.add(24);
-        testList.add(25);
-        testList.add(28);
-        testList.add(30);
-        testList.add(34);
-        testList.add(38);
-        testList.add(41);
-        testList.add(42);
+        List<Double> testList = new ArrayList<Double>();
+        testList.add(20.0);
+        testList.add(21.0);
+        testList.add(24.0);
+        testList.add(25.0);
+        testList.add(28.0);
+        testList.add(30.0);
+        testList.add(34.0);
+        testList.add(38.0);
+        testList.add(41.0);
+        testList.add(42.0);
         Assert.assertEquals(30.3,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(46);
+        testList.add(46.0);
         Assert.assertEquals(32.9,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(50);
+        testList.add(50.0);
         Assert.assertEquals(35.8,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(60);
+        testList.add(60.0);
         Assert.assertEquals(39.4,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(74);
+        testList.add(74.0);
         Assert.assertEquals(44.3,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(75);
+        testList.add(75.0);
         Assert.assertEquals(49.0,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(77);
+        testList.add(77.0);
         Assert.assertEquals(53.7,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(81);
+        testList.add(81.0);
         Assert.assertEquals(58.4,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(88);
+        testList.add(88.0);
         Assert.assertEquals(63.4,analyzer.getRunningAverage(testList), 0.1);
-        testList.add(91);
+        testList.add(91.0);
         Assert.assertEquals(68.4,analyzer.getRunningAverage(testList), 0.1);
     }
 }

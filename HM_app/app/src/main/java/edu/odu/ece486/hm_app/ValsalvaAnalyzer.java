@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class ValsalvaAnalyzer {
 
-    public Integer getMaxInRange(List<Integer> signal, int lower, int upper)
+    public Double getMaxInRange(List<Double> signal, int lower, int upper)
     {
-        Integer max = new Integer(0);
+        Double max = new Double(0);
         for(int i = lower; i < upper+1; i++){
             if (max < signal.get(i)){
                 max = signal.get(i);
@@ -22,9 +22,9 @@ public class ValsalvaAnalyzer {
         return max;
     }
 
-    public Integer getMinInRange(List<Integer> signal, int lower, int upper)
+    public Double getMinInRange(List<Double> signal, int lower, int upper)
     {
-        Integer min = new Integer(256); //TODO: Update this value (256) to contain the maximum possible value.
+        Double min = new Double(256); //TODO: Update this value (256) to contain the maximum possible value.
         for(int i = lower; i < upper+1; i++){
             if (min > signal.get(i)){
                 min = signal.get(i);
@@ -33,11 +33,11 @@ public class ValsalvaAnalyzer {
         return min;
     }
 
-    public Integer getAmplitudeInRange(List<Integer> signal, int lower, int upper)
+    public Double getAmplitudeInRange(List<Double> signal, int lower, int upper)
     {
-        Integer max = getMaxInRange(signal, lower, upper);
-        Integer min = getMinInRange(signal, lower, upper);
-        return new Integer(max-min);
+        Double max = getMaxInRange(signal, lower, upper);
+        Double min = getMinInRange(signal, lower, upper);
+        return new Double(max-min);
     }
 
     public int getIntFromThreeBytes(byte[] b)
@@ -47,16 +47,16 @@ public class ValsalvaAnalyzer {
                 (b[0] & 0xFF) << 16;
     }
 
-    public int getPathLength(Integer red, Integer ir)
+    public Double getPathLength(Double red, Double ir)
     {
-        return(int)((Math.log((double)red.intValue())-6.6649*Math.log((double)ir.intValue()))/1851.0225);
+        return ((Math.log(red)-6.6649*Math.log(ir))/1851.0225);
     }
 
-    public List<Integer> getPathLengthSignal(List<Integer> redSignal, List<Integer> irSignal) throws Exception {
+    public List<Double> getPathLengthSignal(List<Double> redSignal, List<Double> irSignal) throws Exception {
         if(redSignal.size() != irSignal.size())
             throw new Exception("GetPathLengthSignal Method: list sizes are not equal");
         Log.d("ValsavaAnalyzer", "Calculating path length signal.");
-        List<Integer> pathLengthSignal = new ArrayList<Integer>();
+        List<Double> pathLengthSignal = new ArrayList<Double>();
         for(int i = 0; i < redSignal.size(); i++){
            pathLengthSignal.add(getPathLength(redSignal.get(i),irSignal.get(i)));
         }
@@ -71,9 +71,9 @@ public class ValsalvaAnalyzer {
     {
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         try {
-            List<Integer> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
-            int restingAmplitude = getAmplitudeInRange(pathLength, 50, 70);
-            int strainedAmplitude = getAmplitudeInRange(pathLength, 700, 720);
+            List<Double> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+            Double restingAmplitude = getAmplitudeInRange(pathLength, 50, 70);
+            Double strainedAmplitude = getAmplitudeInRange(pathLength, 700, 720);
             int percentMagnitude = (int)(100*strainedAmplitude/restingAmplitude);
             //Todo: fix path length function return actual value. Remove following line.
             percentMagnitude = 61;
@@ -91,14 +91,14 @@ public class ValsalvaAnalyzer {
      * recent 10 values for a signal. If a signal contains less than 10 values,
      * the function will return 0.
      */
-    public Double getRunningAverage(List<Integer> signal) {
+    public Double getRunningAverage(List<Double> signal) {
         int size = signal.size();
-        List<Integer> last10 = signal.subList(Math.max(signal.size() - 10, 0), signal.size());
-        int sum = 0;
-        for (Integer p : last10) {
+        List<Double> last10 = signal.subList(Math.max(signal.size() - 10, 0), signal.size());
+        Double sum = new Double(0);
+        for (Double p : last10) {
             sum += p.intValue();
         }
-        return (double) sum / 10;
+        return (sum /10);
 
      }
 
