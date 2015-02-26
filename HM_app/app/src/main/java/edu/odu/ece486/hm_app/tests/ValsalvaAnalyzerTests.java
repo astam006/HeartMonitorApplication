@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.odu.ece486.hm_app.ValsalvaAnalyzer;
+import edu.odu.ece486.hm_app.ValsalvaDataHolder;
 
 /**
  * Created by Larry on 1/17/2015. This class contains the unit tests for the ValsalvaAnalyzer class.
@@ -65,9 +66,28 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
     }
 
     public void testGetPathLength() throws Exception {
-        Double redPoint = 2000.0;
-        Double irPoint = 30000.0;
+        Double redPoint = 0.11;
+        Double irPoint = 0.16;
         Double resultingPathLength = analyzer.getPathLength(redPoint,irPoint);
+        Assert.assertEquals(0.00540604,resultingPathLength, 0.0001);
+    }
+
+    public void testGetPathLengthSignal() throws Exception {
+        List<Double> testIrSignal = new ArrayList<Double>();
+        testIrSignal.add(0.341);
+        testIrSignal.add(0.332);
+        testIrSignal.add(0.312);
+        testIrSignal.add(0.338);
+        List<Double> testRedSignal = new ArrayList<Double>();
+        testRedSignal.add(0.228);
+        testRedSignal.add(0.262);
+        testRedSignal.add(0.248);
+        testRedSignal.add(0.259);
+        List<Double> testPathLengthSignal = analyzer.getPathLengthSignal(testRedSignal,testIrSignal);
+        Assert.assertEquals(0.00307515, testPathLengthSignal.get(0), 0.0001);
+        Assert.assertEquals(0.00324655, testPathLengthSignal.get(1), 0.0001);
+        Assert.assertEquals(0.0034406, testPathLengthSignal.get(2), 0.0001);
+        Assert.assertEquals(0.00317584, testPathLengthSignal.get(3), 0.0001);
     }
 
     public void testGetRunningPressureAverage() throws Exception {

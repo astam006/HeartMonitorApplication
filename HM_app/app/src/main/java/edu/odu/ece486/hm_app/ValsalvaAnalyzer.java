@@ -72,11 +72,9 @@ public class ValsalvaAnalyzer {
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         try {
             List<Double> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
-            Double restingAmplitude = getAmplitudeInRange(pathLength, 50, 70);
-            Double strainedAmplitude = getAmplitudeInRange(pathLength, 700, 720);
+            Double restingAmplitude = getAmplitudeInRange(pathLength, 200, 280);
+            Double strainedAmplitude = getAmplitudeInRange(pathLength, 700, 750);
             int percentMagnitude = (int)(100*strainedAmplitude/restingAmplitude);
-            //Todo: fix path length function return actual value. Remove following line.
-            percentMagnitude = 61;
             return percentMagnitude;
         }
         catch (Exception e)
