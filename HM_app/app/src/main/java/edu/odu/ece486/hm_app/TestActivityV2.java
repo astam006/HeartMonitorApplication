@@ -23,10 +23,11 @@ public class TestActivityV2 extends Activity {
 
     int progressValue = 1;
     int count = 15;
-    private boolean testOver = false;
+    private boolean testOver = false, setupTime = true;
     private PressureProgressBar pressureProgressBar;
     private TextView pressureValueText;
     private TextView timerView;
+    private TextView instrView;
     private AlertDialog lowPressureAlert;
 
     @Override
@@ -39,25 +40,56 @@ public class TestActivityV2 extends Activity {
 
         lowPressureAlert = createAlertDialog();
         timerView = (TextView) findViewById(R.id.timerTextView);
+        instrView = (TextView) findViewById(R.id.instrText);
         pressureValueText = (TextView) findViewById(R.id.pressureValueTxt);
         pressureProgressBar = (PressureProgressBar) findViewById(R.id.pressureProgressBar);
         pressureProgressBar.setProgress(0);
 
-        ProgressBarTask pbTask = new ProgressBarTask();
-        pbTask.execute();
+        final ProgressBarTask pbTask = new ProgressBarTask();
 
-        new CountDownTimer(30000, 1000) {
+        new CountDownTimer(10000, 1000) {
             @Override
             public void onTick(long millsUntilFinished) {
-                timerView.setTextColor(Color.RED);
+                timerView.setTextColor(Color.WHITE);
                 timerView.setText(Long.toString(millsUntilFinished / 1000));
+                if(millsUntilFinished < 3000)
+                    instrView.setText("Ready...");
+                if(millsUntilFinished < 2000)
+                    instrView.setText("Set...");
             }
-
             @Override
             public void onFinish() {
-                testOver = true;
-                timerView.setTextColor(Color.GREEN);
-                timerView.setText("Done!");
+                pbTask.execute();
+                setupTime = false;
+                new CountDownTimer(15000, 1000) {
+                    @Override
+                    public void onTick(long millsUntilFinished) {
+                        instrView.setTextColor(Color.GREEN);
+                        instrView.setText("Go!");
+                        timerView.setTextColor(Color.RED);
+                        timerView.setText(Long.toString(millsUntilFinished / 1000));
+                        if(millsUntilFinished <= 13000)
+                            instrView.setText("");
+                        if(millsUntilFinished <= 10000 && millsUntilFinished > 5000) {
+                            instrView.setTextColor(Color.WHITE);
+                            instrView.setText("Keep Going!");
+                        }
+                        if(millsUntilFinished <= 5000) {
+                            instrView.setTextColor(Color.WHITE);
+                            instrView.setText("Almost Done!");
+                        }
+
+                    }
+                    @Override
+                    public void onFinish() {
+                        testOver = true;
+                        timerView.setTextColor(Color.GREEN);
+                        timerView.setText("Done!");
+                        instrView.setTextColor(Color.GREEN);
+                        instrView.setText("Test Completed! Remain Still.");
+                        app.sendEndDataTransferCommand();
+                    }
+                }.start();
             }
         }.start();
     }
@@ -71,7 +103,7 @@ public class TestActivityV2 extends Activity {
         pressureProgressBar = pBar;
         pressureProgressBar.setProgress(newPressure);
         pressureValueText.setText(Long.toString(newPressure) + " mmHg");
-        if(newPressure < 20)
+        if(newPressure < 20 && !setupTime)
             lowPressureAlert.show();
         else
             lowPressureAlert.dismiss();
@@ -93,7 +125,7 @@ public class TestActivityV2 extends Activity {
      */
     private void gracefulResultsTransition() {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(2500);
         } catch(InterruptedException e) {
             e.printStackTrace();
         } finally {

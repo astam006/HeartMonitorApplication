@@ -1,6 +1,7 @@
 package edu.odu.ece486.hm_app;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -30,6 +31,7 @@ import java.util.List;
 public class ResultsActivity extends Activity {
 
     private cBaseApplication app;
+    private GraphicalView mChartView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class ResultsActivity extends Activity {
         setContentView(R.layout.activity_results);
 
         app = (cBaseApplication)getApplication();
-        app.sendEndDataTransferCommand();
+        //app.sendEndDataTransferCommand();
 
         // Variables used to modify the results screen.
         int calculatedPercentage = 0;
@@ -121,7 +123,8 @@ public class ResultsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // Create and open the Red Values Graph.
-                openRedGraph();
+                //openRedGraph();
+                openPulseOxGraph();
             }
         });
     }
@@ -160,21 +163,26 @@ public class ResultsActivity extends Activity {
      * This method will generate and then open a graph of the Red Values received from the last
      * test taken by the user.
      */
-    private void openRedGraph() {
+    private void openPulseOxGraph() {
         // Total number of data points to plot.
         int numPoints = ValsalvaDataHolder.getInstance().getRedSignal().size();
         // Get the Red Values list
         List<Double> redData = ValsalvaDataHolder.getInstance().getRedSignal();
+        List<Double> irData = ValsalvaDataHolder.getInstance().getIrSignal();
         //Creating an XY Series for the Red Data
         XYSeries redSeries = new XYSeries("Red Signal");
+        XYSeries irSeries = new XYSeries("IR Signal");
         // Adding data to the series.
         for(int i=0;i<numPoints;i++)
             redSeries.add(i, redData.get(i));
+        for(int i = 0; i < numPoints; i++)
+            irSeries.add(i, irData.get(i));
 
         // Creating a dataSet to hold the series
         XYMultipleSeriesDataset dataSet = new XYMultipleSeriesDataset();
         // Adding Red Series to the dataSet
         dataSet.addSeries(redSeries);
+        dataSet.addSeries(irSeries);
 
         // Creating XYSeriesRenderer to customize redSeries
         XYSeriesRenderer redRenderer = new XYSeriesRenderer();
@@ -183,6 +191,13 @@ public class ResultsActivity extends Activity {
         redRenderer.setFillPoints(true);
         redRenderer.setLineWidth(2);
         //redRenderer.setDisplayChartValues(true);
+
+        // Creating XYSeriesRenderer to customize irSeries
+        XYSeriesRenderer irRenderer = new XYSeriesRenderer();
+        irRenderer.setColor(Color.WHITE);
+        irRenderer.setPointStyle(PointStyle.CIRCLE);
+        irRenderer.setFillPoints(true);
+        irRenderer.setLineWidth(2);
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
@@ -194,15 +209,16 @@ public class ResultsActivity extends Activity {
         multiRenderer.setApplyBackgroundColor(true);
         multiRenderer.setYLabelsAlign(Paint.Align.RIGHT);
         multiRenderer.setBackgroundColor(Color.BLACK);
-        multiRenderer.setMargins(new int[] {60, 70, 15, 0});
+        multiRenderer.setMargins(new int[]{60, 70, 15, 0});
         multiRenderer.setYAxisMin(0);
-        multiRenderer.setChartTitle("Red Value Chart");
+        multiRenderer.setChartTitle("Pulse Ox Values");
         multiRenderer.setXTitle("Test Duration");
-        multiRenderer.setYTitle("Red Signal Value");
+        multiRenderer.setYTitle("Red & IR Values");
         multiRenderer.setZoomButtonsVisible(true);
 
         // Add redRenderer to the overall graph
         multiRenderer.addSeriesRenderer(redRenderer);
+        multiRenderer.addSeriesRenderer(irRenderer);
 
         // Creating an intent to plot line chart using dataSet and multipleRenderer
         Intent intent = ChartFactory.getLineChartIntent(getBaseContext(), dataSet, multiRenderer);
@@ -293,7 +309,7 @@ public class ResultsActivity extends Activity {
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer.setXLabels(0);
+        multiRenderer.setXLabels(15);
         multiRenderer.setAxisTitleTextSize(35);
         multiRenderer.setLegendTextSize(25);
         multiRenderer.setChartTitleTextSize(35);
