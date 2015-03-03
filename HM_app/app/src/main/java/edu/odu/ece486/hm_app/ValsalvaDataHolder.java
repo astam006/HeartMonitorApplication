@@ -39,8 +39,8 @@ public class ValsalvaDataHolder {
     public void updateFromPeripheral(int newPressure, int irPoint, int redPoint)
     {
         updatePressure(newPressure);
-        irSignal.add(new Double(irPoint/65536));
-        redSignal.add(new Double(redPoint/65536));
+        irSignal.add(new Double(new Double(irPoint)/65536));
+        redSignal.add(new Double(new Double(redPoint)/65536));
         lungPressureSignal.add(newPressure);
     }
 

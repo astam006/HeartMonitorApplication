@@ -211,6 +211,7 @@ public class ResultsActivity extends Activity {
         multiRenderer.setBackgroundColor(Color.BLACK);
         multiRenderer.setMargins(new int[]{60, 70, 15, 0});
         multiRenderer.setYAxisMin(0);
+        multiRenderer.setYAxisMax(1);
         multiRenderer.setChartTitle("Pulse Ox Values");
         multiRenderer.setXTitle("Test Duration");
         multiRenderer.setYTitle("Red & IR Values");

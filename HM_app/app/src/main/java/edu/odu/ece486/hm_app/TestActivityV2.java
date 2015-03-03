@@ -78,7 +78,6 @@ public class TestActivityV2 extends Activity {
                             instrView.setTextColor(Color.WHITE);
                             instrView.setText("Almost Done!");
                         }
-
                     }
                     @Override
                     public void onFinish() {
