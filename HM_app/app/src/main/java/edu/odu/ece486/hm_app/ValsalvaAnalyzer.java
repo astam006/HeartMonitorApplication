@@ -110,4 +110,29 @@ public class ValsalvaAnalyzer {
         return Math.sqrt(ms);
     }
 
+    /*
+     * This function will be used to calculate the mean of a signal.
+     */
+    public Double Mean(ArrayList<Double> signal){
+        double mean = 0;
+        for (int i = 0; i < signal.size(); i++)
+            mean += signal.get(i);
+        mean /= signal.size();
+        return mean;
+    }
+
+    /*
+     * This function will calculate the R constant for oxygen saturation.
+     */
+    public Double RConstant(ArrayList<Double> ir, ArrayList<Double> red){
+        return ((RMS(red)/Mean(red)) / (RMS(ir)/Mean(ir)));
+    }
+
+    /*
+     * This function will calculate the oxygen saturation of a signal.
+     */
+    public Double OxygenSaturation(ArrayList<Double> red, ArrayList<Double> ir){
+        return (110 - 25*RConstant(ir, red));
+    }
+
    }
