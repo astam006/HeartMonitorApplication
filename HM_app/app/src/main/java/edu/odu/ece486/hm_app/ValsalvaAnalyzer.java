@@ -99,5 +99,15 @@ public class ValsalvaAnalyzer {
         return (sum /10);
 
      }
+    /*
+     * This function will be called to calculate the root mean square of aa signal.
+     */
+    public Double RMS(ArrayList<Double> signal){
+        double ms = 0;
+        for (int i = 0; i < signal.size(); i++)
+            ms += signal.get(i)*signal.get(i);
+        ms /= signal.size();
+        return Math.sqrt(ms);
+    }
 
    }
