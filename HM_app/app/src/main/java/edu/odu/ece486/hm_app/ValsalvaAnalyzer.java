@@ -155,14 +155,14 @@ public class ValsalvaAnalyzer {
 
     public void findMinima(final List<Double> min, final List<Double> pathlength)
     {
-        //Iterator itr = pathlength.iterator();
 
-        for (Double i = pathlength.get(0); i != pathlength.get(pathlength.size() - 1); i++) {
+
+        for (int i = 0; i != pathlength.size() - 1; i++) {
             boolean noMin;
             noMin = false;
 
-            for (double back = i; back != pathlength.get(0) && i - back < SEARCH_RANGE; back--) {
-                if (back < i) {
+            for (int back = i; back != 0 && i - back < SEARCH_RANGE; back--) {
+                if (pathlength.get(back) < pathlength.get(i)) {
                     noMin = true;
                     break;
                 }
@@ -170,8 +170,8 @@ public class ValsalvaAnalyzer {
 
 
             if(! noMin) {
-                for (double front = i; front != pathlength.get(pathlength.size()-1) && front-i < SEARCH_RANGE; front++) {
-                    if (front < i) {
+                for (int front = i; front != pathlength.size()-1 && front-i < SEARCH_RANGE; front++) {
+                    if (pathlength.get(front) < pathlength.get(i)) {
                         noMin = true;
                         break;
                     }
@@ -181,7 +181,7 @@ public class ValsalvaAnalyzer {
             }
 
             if (! noMin) {
-                min.add((double) (i - pathlength.get(0)));
+                min.add((pathlength.get(i) - pathlength.get(0)));
             }
         }
     }
@@ -224,7 +224,7 @@ public class ValsalvaAnalyzer {
         for (int i = 0; i < length; i++){
             averageAmplitude += restAmplitude.get(i);
         }
-        return averageAmplitude;
+        return averageAmplitude/restAmplitude.size();
     }
 
     // Will take the averageRestAmplitude and create a ratio for every amplitude value during the valsalva
