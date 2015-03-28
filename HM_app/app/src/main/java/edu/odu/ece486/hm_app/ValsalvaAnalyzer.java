@@ -1,8 +1,10 @@
 package edu.odu.ece486.hm_app;
 
 import android.util.Log;
+import java.util.Collections;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -135,4 +137,107 @@ public class ValsalvaAnalyzer {
         return (110 - 25*RConstant(ir, red));
     }
 
-   }
+    public int SEARCH_RANGE =  15;
+
+    public List<Double> calculateAmplitude(final List pathlength, List<Double> minima)
+    {
+        List<Double> amplitude = new ArrayList<Double>();
+        findMinima(minima, pathlength);
+        for (int i=0; i<minima.size()-1; i++) {
+
+            double value = (minima.get(i) + minima.get(i+1))/2;
+            amplitude.add(maxValueBetweenPoints(pathlength, minima.get(i), minima.get(i + 1)) - (value));
+
+        }
+
+        return amplitude;
+    }
+
+    public void findMinima(final List<Double> min, final List<Double> pathlength)
+    {
+        //Iterator itr = pathlength.iterator();
+
+        for (Double i = pathlength.get(0); i != pathlength.get(pathlength.size() - 1); i++) {
+            boolean noMin;
+            noMin = false;
+
+            for (double back = i; back != pathlength.get(0) && i - back < SEARCH_RANGE; back--) {
+                if (back < i) {
+                    noMin = true;
+                    break;
+                }
+            }
+
+
+            if(! noMin) {
+                for (double front = i; front != pathlength.get(pathlength.size()-1) && front-i < SEARCH_RANGE; front++) {
+                    if (front < i) {
+                        noMin = true;
+                        break;
+                    }
+                }
+
+
+            }
+
+            if (! noMin) {
+                min.add((double) (i - pathlength.get(0)));
+            }
+        }
+    }
+
+
+    public Double maxValueBetweenPoints(final List<Double> pathlength, double begin, double end)
+    {
+        double max = 0;
+
+        for (double i = begin+1; i < end; i++) {
+            if(max < pathlength.get((int) i)) {
+                max = pathlength.get((int) i);
+            }
+        }
+        return max;
+    }
+
+    //Next two functions split the list of amplitude values into two list, before and after the valsalva
+    //maneuver
+
+    public List<Double> splitRestAmplitude(final List<Double> amplitude)
+    {
+        List restAmplitude = new ArrayList<Double>(amplitude.subList(7,18));
+
+        return restAmplitude;
+    }
+
+    public List<Double> splitTestAmplitude(final List<Double> amplitude) {
+
+        List testAmplitude = new ArrayList<Double>(amplitude.subList(18,50));
+
+        return testAmplitude;
+    }
+
+    // Will determine the average amplitude during the second half of the rest period
+    public Double averageRestAmplitude(final List<Double> restAmplitude)
+    {
+        int length = restAmplitude.size();
+        double averageAmplitude = 0;
+        for (int i = 0; i < length; i++){
+            averageAmplitude += restAmplitude.get(i);
+        }
+        return averageAmplitude;
+    }
+
+    // Will take the averageRestAmplitude and create a ratio for every amplitude value during the valsalva
+    // maneuver and out put a list of values
+    public Double amplitudeRatio(final Double averageAmplitude,final List<Double> testAmplitude)
+    {
+        double lowTestAmplitude = Collections.min(testAmplitude);
+        double ratio = 0;
+
+        ratio = lowTestAmplitude/averageAmplitude;
+
+        return ratio;
+    }
+
+
+}
