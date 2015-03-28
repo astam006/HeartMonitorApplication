@@ -1,15 +1,26 @@
 package edu.odu.ece486.hm_app.tests;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
+
 import java.util.ArrayList;
 import java.lang.Math;
-import android.util.Log;
 
+import android.test.AndroidTestCase;
+import android.util.Log;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+import java.io.FileWriter;
 
 /**
  * Created by Russell on 1/26/2015.
  */
 
-public class Testdata {
+public class Testdata extends AndroidTestCase{
 
     private int SAMPLES_PER_SECOND = 50;
     private int INTENSITY = 20;
@@ -17,15 +28,27 @@ public class Testdata {
     private int SLOPE = -5;
 
 
-    public void main(Integer[] args){
 
-        ArrayList<Double> list = new ArrayList<Double>();
+    public void testExportFakeSignal() throws Exception {
+
+        ArrayList<String> list = new ArrayList<String>();
+        String csv = "output.csv";
+        CSVWriter writer = new CSVWriter(new FileWriter(csv));
+
         for (int i=0; i< 45* SAMPLES_PER_SECOND; i++) {
-            double data = FakeData(i);
-            list.add(data);
-            Log.d("Pressure", "New Pressure = "+ data);
+            int data = FakeData(i);
+            String data2 = Integer.toString(data);
+
+            list.add(data2);
+            writer.writeNext(new String[]{data2});
+
+            Log.d("Fake Amplitude Values ", data2);
         }
-       }
+        //return list;
+    }
+
+
+
 
     public int FakeData(int t){
 
