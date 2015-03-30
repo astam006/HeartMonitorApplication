@@ -73,6 +73,12 @@ public class ResultsActivity extends Activity {
             percentageTextView.setText(Long.toString(calculatedPercentage) + "%");
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ResultsActivity.this, MainMenuActivity.class));
+        ResultsActivity.this.finish();
+    }
+
     /**
      * Implement the save button functionality
      */

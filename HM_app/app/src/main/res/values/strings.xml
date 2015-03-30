@@ -19,5 +19,8 @@
     <string name="red_results_graph">View Red Signal Graph</string>
     <string name="ir_results_graph">View IR Signal Graph</string>
     <string name="pressure_results_graph">View Pressure Graph</string>
+    <string name="title_activity_sit">SitActivity</string>
+    <string name="title_activity_pulse">PulseActivity</string>
+    <string name="title_activity_final_prep">finalPrepActivity</string>
 
 </resources>

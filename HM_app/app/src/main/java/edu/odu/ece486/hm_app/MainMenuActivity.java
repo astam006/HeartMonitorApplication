@@ -32,7 +32,8 @@ public class MainMenuActivity extends Activity {
             public void onClick(View view) {
                 // Switch to Test Activity
                 //startActivity(new Intent(MainMenuActivity.this, TestActivity.class));
-                startActivity(new Intent(MainMenuActivity.this, TestActivityV2.class));
+                //startActivity(new Intent(MainMenuActivity.this, TestActivityV2.class));
+                startActivity(new Intent(MainMenuActivity.this, SitActivity.class));
                 MainMenuActivity.this.finish();
             }
         });

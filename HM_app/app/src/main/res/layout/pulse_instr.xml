@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Place pulse sensor on your index finger."
+        android:id="@+id/pulseInstrText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:paddingBottom="20dp"
+        android:layout_marginTop="15dp" />
+
+    <ImageView
+        android:layout_width="220dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView3"
+        android:background="@drawable/ic_pulseox"
+        android:adjustViewBounds="true"
+        android:baselineAlignBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/pulseNextBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_nextbtn"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Press the next arrow when you are ready."
+        android:id="@+id/pulseInstrText2"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_above="@+id/pulseNextBtn"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
