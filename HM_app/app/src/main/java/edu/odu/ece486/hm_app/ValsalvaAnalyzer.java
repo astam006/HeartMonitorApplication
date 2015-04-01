@@ -74,9 +74,9 @@ public class ValsalvaAnalyzer {
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         try {
             List<Double> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
-            Double restingAmplitude = getAmplitudeInRange(pathLength, 200, 280);
-            Double strainedAmplitude = getAmplitudeInRange(pathLength, 700, 750);
-            int percentMagnitude = (int)(100*strainedAmplitude/restingAmplitude);
+            List<Integer> minimas = findMinimas(pathLength);
+            List<Double> amplitudes = calculateAmplitude(pathLength,minimas);
+            int percentMagnitude = (int)(100*amplitudeRatio(averageRestAmplitude(splitRestAmplitude(amplitudes)),splitTestAmplitude(amplitudes)));
             return percentMagnitude;
         }
         catch (Exception e)
@@ -139,10 +139,10 @@ public class ValsalvaAnalyzer {
 
     public int SEARCH_RANGE =  15;
 
-    public List<Double> calculateAmplitude(final List pathlength, List<Double> minima)
+    public List<Double> calculateAmplitude(List<Double> pathlength, List<Integer> minima)
     {
         List<Double> amplitude = new ArrayList<Double>();
-        findMinima(minima, pathlength);
+
         for (int i=0; i<minima.size()-1; i++) {
 
             double value = (minima.get(i) + minima.get(i+1))/2;
@@ -153,8 +153,9 @@ public class ValsalvaAnalyzer {
         return amplitude;
     }
 
-    public void findMinima(final List<Double> min, final List<Double> pathlength)
+    public List<Integer> findMinimas(List<Double> pathlength)
     {
+        List<Integer> min = new ArrayList<Integer>();
         for (int i = 0; i != pathlength.size() - 1; i++) {
             boolean noMin;
             noMin = false;
@@ -178,19 +179,20 @@ public class ValsalvaAnalyzer {
             }
 
             if (! noMin) {
-                min.add((pathlength.get(i) - pathlength.get(0)));
+                min.add(i);
             }
         }
+        return min;
     }
 
 
-    public Double maxValueBetweenPoints(final List<Double> pathlength, double begin, double end)
+    public Double maxValueBetweenPoints(final List<Double> pathlength, int begin, int end)
     {
         double max = 0;
 
-        for (double i = begin+1; i < end; i++) {
-            if(max < pathlength.get((int) i)) {
-                max = pathlength.get((int) i);
+        for (int i = begin+1; i < end; i++) {
+            if(max < pathlength.get(i)) {
+                max = pathlength.get(i);
             }
         }
         return max;
@@ -201,14 +203,14 @@ public class ValsalvaAnalyzer {
 
     public List<Double> splitRestAmplitude(final List<Double> amplitude)
     {
-        List restAmplitude = new ArrayList<Double>(amplitude.subList(7,18));
+        List<Double> restAmplitude = new ArrayList<Double>(amplitude.subList(7,18));
 
         return restAmplitude;
     }
 
     public List<Double> splitTestAmplitude(final List<Double> amplitude) {
 
-        List testAmplitude = new ArrayList<Double>(amplitude.subList(18,50));
+        List<Double> testAmplitude = new ArrayList<Double>(amplitude.subList(18,50));
 
         return testAmplitude;
     }
