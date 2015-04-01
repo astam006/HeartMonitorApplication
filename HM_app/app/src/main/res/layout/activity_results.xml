@@ -54,29 +54,6 @@
         android:gravity="center"
         android:paddingTop="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Red Values"
-        android:id="@+id/numRedValues"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        android:layout_below="@+id/percentageView"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="IR Values"
-        android:id="@+id/numIRValues"
-        android:textColor="@android:color/white"
-        android:paddingTop="10dp"
-        android:gravity="center"
-        android:layout_below="@+id/numRedValues"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -111,18 +88,8 @@
         android:text="@string/red_results_graph"
         android:id="@+id/redGraphBtn"
         android:textColor="@android:color/white"
-        android:layout_above="@+id/irGraphBtn"
-        android:layout_alignEnd="@+id/irGraphBtn"
-        android:layout_alignStart="@+id/irGraphBtn" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ir_results_graph"
-        android:id="@+id/irGraphBtn"
-        android:textColor="@android:color/white"
-        android:layout_above="@+id/pressureGraphBtn"
+        android:layout_marginTop="81dp"
+        android:layout_below="@+id/percentageView"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -132,7 +99,9 @@
         android:text="@string/pressure_results_graph"
         android:id="@+id/pressureGraphBtn"
         android:textColor="@android:color/white"
-        android:layout_above="@+id/returnToMainMenuButton"
-        android:layout_toStartOf="@+id/returnToMainMenuButton" />
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/redGraphBtn"
+        android:layout_alignStart="@+id/redGraphBtn"
+        android:layout_alignEnd="@+id/redGraphBtn" />
 
 </RelativeLayout>

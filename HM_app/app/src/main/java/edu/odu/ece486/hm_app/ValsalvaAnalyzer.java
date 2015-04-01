@@ -155,8 +155,6 @@ public class ValsalvaAnalyzer {
 
     public void findMinima(final List<Double> min, final List<Double> pathlength)
     {
-
-
         for (int i = 0; i != pathlength.size() - 1; i++) {
             boolean noMin;
             noMin = false;
@@ -167,7 +165,6 @@ public class ValsalvaAnalyzer {
                     break;
                 }
             }
-
 
             if(! noMin) {
                 for (int front = i; front != pathlength.size()-1 && front-i < SEARCH_RANGE; front++) {

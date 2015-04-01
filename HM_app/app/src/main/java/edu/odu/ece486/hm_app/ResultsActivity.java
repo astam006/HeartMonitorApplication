@@ -46,13 +46,13 @@ public class ResultsActivity extends Activity {
         int numberRedValues = 0;
         int numberIRValues = 0;
         TextView percentageTextView = (TextView)findViewById(R.id.percentageView);
-        TextView numRedValues = (TextView)findViewById(R.id.numRedValues);
-        TextView numIRValues = (TextView)findViewById(R.id.numIRValues);
+        //TextView numRedValues = (TextView)findViewById(R.id.numRedValues);
+        //TextView numIRValues = (TextView)findViewById(R.id.numIRValues);
         ValsalvaAnalyzer analyzer = new ValsalvaAnalyzer();
 
         // Implement the Graph buttons
         implementRedGraphButton();
-        implementIRGraphButton();
+        //implementIRGraphButton();
         implementPressureGraphButton();
 
         // Implement the return to main menu button
@@ -64,8 +64,8 @@ public class ResultsActivity extends Activity {
         numberRedValues = ValsalvaDataHolder.getInstance().getRedSignal().size();
         numberIRValues = ValsalvaDataHolder.getInstance().getIrSignal().size();
 
-        numRedValues.setText(Long.toString(numberRedValues) + " received Red Values");
-        numIRValues.setText(Long.toString(numberIRValues) + " received IR Values");
+        //numRedValues.setText(Long.toString(numberRedValues) + " received Red Values");
+        //numIRValues.setText(Long.toString(numberIRValues) + " received IR Values");
 
         if(calculatedPercentage == -1)
             percentageTextView.setText("Error during calculation.");
@@ -138,7 +138,7 @@ public class ResultsActivity extends Activity {
     /*
      * Display the IR Values Graph when the respective button is pressed.
      */
-    private void implementIRGraphButton() {
+    /*private void implementIRGraphButton() {
         Button irGraphBtn = (Button) findViewById(R.id.irGraphBtn);
 
         irGraphBtn.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +148,7 @@ public class ResultsActivity extends Activity {
                 openIRGraph();
             }
         });
-    }
+    }*/
 
     /*
      * Display the Air Pressure Graph when the respective button is pressed.
