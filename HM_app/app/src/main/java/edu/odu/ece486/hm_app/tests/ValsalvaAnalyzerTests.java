@@ -1,6 +1,8 @@
 package edu.odu.ece486.hm_app.tests;
 
+import android.content.res.AssetFileDescriptor;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import junit.framework.Assert;
 
@@ -121,5 +123,66 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Assert.assertEquals(63.4,analyzer.getRunningAverage(testList), 0.1);
         testList.add(91.0);
         Assert.assertEquals(68.4,analyzer.getRunningAverage(testList), 0.1);
+    }
+
+    /*
+     * This test can be used to display information about the signals calculated from input data.
+     * 1. Select a file from the assets folder to import and run calculations
+     *         upon and insert the file name into the 4th line of this test.
+     * 2. Run the test.
+     * 3. Click on the Android tab at the bottom.
+     * 4. Search for TestFindMinimas in the logcat search window.
+     * 5. View information about the data.
+     */
+    public void testFindMinimas() throws Exception {
+        Log.d("TestFindMinimas", "Getting data holder.");
+        ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
+        Log.d("TestFindMinimas", "Importing csv file.");
+        data.ImportCSV(this.getContext().getAssets().open("jenTestDataCsv1.csv"));
+        Log.d("TestFindMinimas", "Number of data points imported: " + data.getRedSignal().size());
+        Log.d("TestFindMinimas", "Calculating Path Length Signal.");
+        List<Double> pathLength = analyzer.getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+        Log.d("TestFindMinimas", "Verifying path length size.");
+        //Assert.assertTrue("Pathlength size: " + pathLength.size(),pathLength.size() == 1368);
+        Log.d("TestFindMinimas", "Finding minimas.");
+        List<Integer> minimas = analyzer.findMinimas(pathLength);
+        Log.d("TestFindMinimas", "Number of minimas: " + minimas.size());
+        List<Double> amplitudes = analyzer.calculateAmplitude(pathLength, minimas);
+        Log.d("TestFindMinimas", "Number of amplitudes: " + amplitudes.size());
+        Integer ratio = analyzer.getRatio(amplitudes);
+        Log.d("TestFindMinimas", "Amplitude ratio: " + ratio);
+    }
+
+    /*
+     * This test can be used to display information about the signals calculated from input data.
+     * and save the data to a file.
+     * 1. Select a file from the assets folder to import and run calculations
+     *         upon and insert the file name into the 4th line of this test.
+     * 2. Run the test.
+     * 3. Click on the Android tab at the bottom.
+     * 4. Search for TestFindMinimas in the logcat search window.
+     * 5. View information about the data.
+     * 6. A csv is saved into the base directory of android device.
+     * The csv contains the regular saved application information (light and pressure signals)
+     * along with the calculated pathlength signal, 0 or 1 indication for whether a point is a
+     * minima, along with the amplitude for that range next to the points that are minimas.
+     */
+    public void testChooseAFileFromAssetsAndItWillSaveData() throws Exception
+    {
+        Log.d("TestChooseAndSave", "Getting data holder.");
+        ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
+        Log.d("TestChooseAndSave", "Importing csv file.");
+        data.ImportCSV(this.getContext().getAssets().open("jenTestDataCsv1.csv"));
+        Log.d("TestChooseAndSave", "Number of data points imported: " + data.getRedSignal().size());
+        Log.d("TestChooseAndSave", "Calculating Path Length Signal.");
+        List<Double> pathLength = analyzer.getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+        Log.d("TestChooseAndSave", "Verifying path length size.");
+        Log.d("TestChooseAndSave", "Finding minimas.");
+        List<Integer> minimas = analyzer.findMinimas(pathLength);
+        Log.d("TestChooseAndSave", "Number of minimas: " + minimas.size());
+        List<Double> amplitudes = analyzer.calculateAmplitude(pathLength, minimas);
+        Log.d("TestChooseAndSave", "Number of amplitudes: " + amplitudes.size());
+        data.saveWithCalculatedData(pathLength, minimas, amplitudes);
+        Log.d("TestChooseAndSave", "Save complete.");
     }
 }

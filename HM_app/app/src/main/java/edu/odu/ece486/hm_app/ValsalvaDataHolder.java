@@ -9,6 +9,8 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
@@ -17,6 +19,7 @@ import java.io.FileWriter;
  * Created by Larry on 1/26/2015. This class will record all necessary data from the valsalva test.
  */
 public class ValsalvaDataHolder {
+    //Sensor Information
     private static PressureSensor pressureSensor;
     private static List<Double> irSignal;
     private static List<Double> redSignal;
@@ -68,6 +71,58 @@ public class ValsalvaDataHolder {
                 nextLine[0] = irStringArray[i];
                 nextLine[1] = redStringArray[i];
                 nextLine[2] = lungPressureStringArray[i];
+                writer.writeNext(nextLine);
+            }
+            writer.close();
+        }
+        catch(IOException e)
+        {
+            Log.e("SaveCSV", e.getMessage());
+        }
+    }
+
+    public void saveWithCalculatedData(List<Double> pathLength, List<Integer> minimas, List<Double> amplitudes) throws IOException {
+        String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+        String fileName = "ValsalvaData.csv";
+        String filePath = baseDir + File.separator + fileName;
+        File file = new File(filePath);
+
+        try {
+            CSVWriter writer;
+            if (file.exists() && !file.isDirectory()) {
+                file.delete();
+                FileWriter fileWriter = new FileWriter(filePath, true);
+                writer = new CSVWriter(fileWriter);
+            } else {
+                writer = new CSVWriter(new FileWriter(filePath));
+            }
+            String[] redStringArray = getStringArrayFromDoubles(redSignal);
+            String[] irStringArray = getStringArrayFromDoubles(irSignal);
+            String[] lungPressureStringArray = getStringArrayFromInts(lungPressureSignal);
+            String[] pathLengthArray = getStringArrayFromDoubles(pathLength);
+            String[] amplitudeArray = getStringArrayFromDoubles(amplitudes);
+
+            int ampCount = 0;
+            for (int i = 0; i < redStringArray.length; i++) {
+                String[] nextLine = new String[6];
+                nextLine[0] = irStringArray[i];
+                nextLine[1] = redStringArray[i];
+                nextLine[2] = lungPressureStringArray[i];
+                nextLine[3] = pathLengthArray[i];
+                if(minimas.contains(i)) {
+                    nextLine[4] = "1";
+                    if (ampCount < amplitudes.size()) {
+                        nextLine[5] = amplitudeArray[ampCount];
+                        ampCount++;
+                    } else {
+                        nextLine[5] = "0";
+                    }
+                }
+                else
+                {
+                    nextLine[4] = "0";
+                    nextLine[5] = "0";
+                }
                 writer.writeNext(nextLine);
             }
             writer.close();
@@ -150,5 +205,21 @@ public class ValsalvaDataHolder {
         }
     }
 
-
+    public void ImportCSV(InputStream stream) throws IOException
+    {
+        try{
+            CSVReader reader = new CSVReader(new InputStreamReader(stream,"UTF-8"));
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null)
+            {
+                irSignal.add(Double.parseDouble(nextLine[0]));
+                redSignal.add(Double.parseDouble(nextLine[1]));
+                lungPressureSignal.add(Integer.parseInt(nextLine[2]));
+            }
+        }
+        catch(IOException e)
+        {
+            Log.e("ImportCSV", e.getMessage());
+        }
+    }
 }
