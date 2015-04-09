@@ -92,7 +92,7 @@ public class TestActivityV2 extends Activity {
                         timerView.setText("Done!");
                         instrView.setTextColor(Color.GREEN);
                         instrView.setText("Test Completed! Remain Still.");
-                        app.sendEndDataTransferCommand();
+                        //app.sendEndDataTransferCommand();
                     }
                 }.start();
             }
@@ -130,10 +130,11 @@ public class TestActivityV2 extends Activity {
      */
     private void gracefulResultsTransition() {
         try {
-            Thread.sleep(2500);
+            Thread.sleep(10000);
         } catch(InterruptedException e) {
             e.printStackTrace();
         } finally {
+            app.sendEndDataTransferCommand();
             startActivity(new Intent(TestActivityV2.this, ResultsActivity.class));
             TestActivityV2.this.finish();
         }
