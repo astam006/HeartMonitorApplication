@@ -75,9 +75,11 @@ public class ValsalvaAnalyzer {
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         try {
             List<Double> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
-            List<Integer> minimas = findMaximas(pathLength);
-            List<Double> amplitudes = calculateAmplitudeWithMaximas(pathLength, minimas);
-            int percentMagnitude = getRatio(amplitudes, data.getTestStartIndex(), data.getTestEndIndex());
+            List<Integer> maximas = findMaximas(pathLength);
+            List<Double> amplitudes = calculateAmplitudeWithMaximas(pathLength, maximas);
+            int percentMagnitude = getRatio(amplitudes,
+                    getAmplitudeIndexFromPathLengthIndex(maximas,data.getTestStartIndex()),
+                    getAmplitudeIndexFromPathLengthIndex(maximas, data.getTestEndIndex()));
             return percentMagnitude;
         }
         catch (Exception e)
@@ -90,7 +92,7 @@ public class ValsalvaAnalyzer {
     public int getRatio(List<Double> amplitudes, Integer testStartIndex, Integer testEndIndex)
     {
         return (int)(100*amplitudeRatio(averageRestAmplitude(splitRestAmplitude(amplitudes, testStartIndex)),
-                splitTestAmplitude(amplitudes, testStartIndex, testEndIndex)));
+                averageTestAmplitude(splitTestAmplitude(amplitudes, testStartIndex, testEndIndex))));
     }
 
     /*
@@ -176,7 +178,17 @@ public class ValsalvaAnalyzer {
         return amplitude;
     }
 
-
+    public Integer getAmplitudeIndexFromPathLengthIndex(List<Integer> Maximas, Integer pathlengthIndex)
+    {
+        for(int i = 0; i < Maximas.size(); i++)
+        {
+            if(Maximas.get(i)> pathlengthIndex)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
 
     public List<Integer> findMinimas(List<Double> pathlength)
     {
@@ -299,11 +311,7 @@ public class ValsalvaAnalyzer {
 
     public List<Double> splitTestAmplitude(final List<Double> amplitude, Integer testStartedIndex, Integer testEndedIndex) {
         Log.d("ValsavaAnalyzer", "Grabbing test amplitude values.");
-        Integer numberOfIndices = testEndedIndex - testStartedIndex;
-        Integer middleOfTestIndex = (int)((numberOfIndices/2) + testStartedIndex);
-
-        List<Double> testAmplitude = new ArrayList<Double>(amplitude.subList(middleOfTestIndex,middleOfTestIndex+3));
-
+        List<Double> testAmplitude = new ArrayList<Double>(amplitude.subList(testStartedIndex,testEndedIndex));
         return testAmplitude;
     }
 
@@ -317,6 +325,21 @@ public class ValsalvaAnalyzer {
             averageAmplitude += restAmplitude.get(i);
         }
         return averageAmplitude/restAmplitude.size();
+    }
+
+    // Will determine the average amplitude during the second half of the rest period
+    public Double averageTestAmplitude(final List<Double> testAmplitude)
+    {
+        Log.d("ValsavaAnalyzer", "Calculating average test amplitude.");
+        double min  = Collections.min(testAmplitude);
+        int minIndex = testAmplitude.indexOf(min);
+        List<Double> strainedValues = testAmplitude.subList(minIndex-1, minIndex+2);
+
+        double averageAmplitude = 0;
+        for (int i = 0; i < strainedValues.size(); i++){
+            averageAmplitude += strainedValues.get(i);
+        }
+        return averageAmplitude/strainedValues.size();
     }
 
     // Will determine the average amplitude during the second half of the rest period
@@ -334,15 +357,9 @@ public class ValsalvaAnalyzer {
 
     // Will take the averageRestAmplitude and create a ratio for every amplitude value during the valsalva
     // maneuver and out put a list of values
-    public Double amplitudeRatio(final Double averageAmplitude,final List<Double> testAmplitude)
+    public Double amplitudeRatio(final Double averageAmplitude,final Double testAmplitude)
     {
         Log.d("ValsavaAnalyzer", "Calculating amplitude ratio.");
-        double lowTestAmplitudeAverage = Collections.min(testAmplitude);
-
-        double ratio = 0;
-
-        ratio = lowTestAmplitudeAverage/averageAmplitude;
-
-        return ratio;
+        return testAmplitude/averageAmplitude;
     }
 }

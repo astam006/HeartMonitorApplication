@@ -167,7 +167,7 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Log.d("TestFindMaximas", "Number of maximas: " + maximas.size());
         List<Double> amplitudes = analyzer.calculateAmplitudeWithMaximas(pathLength, maximas);
         Log.d("TestFindMaximas", "Number of amplitudes: " + amplitudes.size());
-        Integer ratio = analyzer.getRatio(amplitudes, 17, 43);
+        Integer ratio = analyzer.getRatio(amplitudes, 550, 1400);
         Log.d("TestFindMaximas", "Amplitude ratio: " + ratio);
     }
 
