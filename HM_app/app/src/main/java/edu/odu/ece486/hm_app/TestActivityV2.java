@@ -67,6 +67,7 @@ public class TestActivityV2 extends Activity {
             public void onFinish() {
                 pbTask.execute();
                 setupTime = false;
+                ValsalvaDataHolder.getInstance().SetTestStartedIndex();
                 new CountDownTimer(15000, 1000) {
                     @Override
                     public void onTick(long millsUntilFinished) {
@@ -88,6 +89,7 @@ public class TestActivityV2 extends Activity {
                     @Override
                     public void onFinish() {
                         testOver = true;
+                        ValsalvaDataHolder.getInstance().SetTestEndedIndex();
                         timerView.setTextColor(Color.GREEN);
                         timerView.setText("Done!");
                         instrView.setTextColor(Color.GREEN);

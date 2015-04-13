@@ -2,15 +2,9 @@ package edu.odu.ece486.hm_app;
 
 import android.util.Log;
 
-import com.opencsv.CSVWriter;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Collections;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -81,9 +75,9 @@ public class ValsalvaAnalyzer {
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         try {
             List<Double> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
-            List<Integer> minimas = findMinimas(pathLength);
-            List<Double> amplitudes = calculateAmplitude(pathLength, minimas);
-            int percentMagnitude = getRatio(amplitudes);
+            List<Integer> minimas = findMaximas(pathLength);
+            List<Double> amplitudes = calculateAmplitudeWithMaximas(pathLength, minimas);
+            int percentMagnitude = getRatio(amplitudes, data.getTestStartIndex(), data.getTestEndIndex());
             return percentMagnitude;
         }
         catch (Exception e)
@@ -93,9 +87,10 @@ public class ValsalvaAnalyzer {
         return -1;
     }
 
-    public int getRatio(List<Double> amplitudes)
+    public int getRatio(List<Double> amplitudes, Integer testStartIndex, Integer testEndIndex)
     {
-        return (int)(100*amplitudeRatio(averageRestAmplitude(splitRestAmplitude(amplitudes)),splitTestAmplitude(amplitudes)));
+        return (int)(100*amplitudeRatio(averageRestAmplitude(splitRestAmplitude(amplitudes, testStartIndex)),
+                splitTestAmplitude(amplitudes, testStartIndex, testEndIndex)));
     }
 
     /*
@@ -151,7 +146,7 @@ public class ValsalvaAnalyzer {
 
     public int SEARCH_RANGE =  15;
 
-    public List<Double> calculateAmplitude(List<Double> pathlength, List<Integer> minima)
+    public List<Double> calculateAmplitudeWithMinimas(List<Double> pathlength, List<Integer> minima)
     {
         Log.d("ValsavaAnalyzer", "Calculating amplitude signal.");
         List<Double> amplitude = new ArrayList<Double>();
@@ -165,6 +160,23 @@ public class ValsalvaAnalyzer {
 
         return amplitude;
     }
+
+    public List<Double> calculateAmplitudeWithMaximas(List<Double> pathlength, List<Integer> maximas)
+    {
+        Log.d("ValsavaAnalyzer", "Calculating amplitude signal.");
+        List<Double> amplitude = new ArrayList<Double>();
+
+        for (int i=0; i<maximas.size()-1; i++) {
+
+            double value = (pathlength.get(maximas.get(i)) + pathlength.get(maximas.get(i+1)))/2;
+            amplitude.add(Math.abs(minValueBetweenPoints(pathlength, maximas.get(i), maximas.get(i + 1)) - (value)));
+
+        }
+
+        return amplitude;
+    }
+
+
 
     public List<Integer> findMinimas(List<Double> pathlength)
     {
@@ -201,6 +213,41 @@ public class ValsalvaAnalyzer {
         return min;
     }
 
+    public List<Integer> findMaximas(List<Double> pathlength)
+    {
+        Log.d("ValsavaAnalyzer", "Creating minimas list from " + pathlength.size() + " elements.");
+        List<Integer> max = new ArrayList<Integer>();
+        for (int i = 0; i < pathlength.size(); i++) {
+            boolean noMax;
+            noMax = false;
+
+            for (int back = i; back > 0 && i - back < SEARCH_RANGE; back--) {
+                if (pathlength.get(back) > pathlength.get(i)) {
+                    Log.d("ValsavaAnalyzer", "Back is greater than current.");
+                    noMax = true;
+                    break;
+                }
+            }
+
+            if(! noMax) {
+                for (int front = i; front < pathlength.size() && front-i < SEARCH_RANGE; front++) {
+                    if (pathlength.get(front) > pathlength.get(i)) {
+                        Log.d("ValsavaAnalyzer", "Front is greater than current.");
+                        noMax = true;
+                        break;
+                    }
+                }
+            }
+
+            if (! noMax) {
+                Log.d("ValsavaAnalyzer", "Adding index" + i + "to minimas list");
+                max.add(new Integer(i));
+            }
+        }
+        Log.d("ValsavaAnalyzer", "Size of minimas list: " + max.size());
+        return max;
+    }
+
     public List<Integer> groomMinimas(List<Integer> minimas)
     {
         for(int i = 0; i < minimas.size()-1; i++)
@@ -226,21 +273,36 @@ public class ValsalvaAnalyzer {
         return max;
     }
 
+    public Double minValueBetweenPoints(final List<Double> pathlength, int begin, int end)
+    {
+        double min = 1;
+
+        for (int i = begin+1; i < end; i++) {
+            if(min > pathlength.get(i)) {
+                min = pathlength.get(i);
+            }
+        }
+        return min;
+    }
+
     //Next two functions split the list of amplitude values into two list, before and after the valsalva
     //maneuver
 
-    public List<Double> splitRestAmplitude(final List<Double> amplitude)
+    public List<Double> splitRestAmplitude(final List<Double> amplitude, Integer testStartedIndex)
     {
         Log.d("ValsavaAnalyzer", "Grabbing rest amplitude values.");
         Log.d("ValsavaAnalyzer", "Size of amplitude signal: " + amplitude.size());
-        List<Double> restAmplitude = new ArrayList<Double>(amplitude.subList(8,15));
+        List<Double> restAmplitude = new ArrayList<Double>(amplitude.subList(testStartedIndex-6,testStartedIndex-3));
 
         return restAmplitude;
     }
 
-    public List<Double> splitTestAmplitude(final List<Double> amplitude) {
+    public List<Double> splitTestAmplitude(final List<Double> amplitude, Integer testStartedIndex, Integer testEndedIndex) {
         Log.d("ValsavaAnalyzer", "Grabbing test amplitude values.");
-        List<Double> testAmplitude = new ArrayList<Double>(amplitude.subList(5,amplitude.size()));
+        Integer numberOfIndices = testEndedIndex - testStartedIndex;
+        Integer middleOfTestIndex = (int)((numberOfIndices/2) + testStartedIndex);
+
+        List<Double> testAmplitude = new ArrayList<Double>(amplitude.subList(middleOfTestIndex,middleOfTestIndex+3));
 
         return testAmplitude;
     }
@@ -257,19 +319,29 @@ public class ValsalvaAnalyzer {
         return averageAmplitude/restAmplitude.size();
     }
 
+    // Will determine the average amplitude during the second half of the rest period
+    public Double averageAmplitude(final List<Double> amplitudes)
+    {
+        Log.d("ValsavaAnalyzer", "Calculating average rest amplitude.");
+        int length = amplitudes.size();
+        double averageAmplitude = 0;
+        for (int i = 0; i < length; i++){
+            averageAmplitude += amplitudes.get(i);
+        }
+        return averageAmplitude/amplitudes.size();
+    }
+
+
     // Will take the averageRestAmplitude and create a ratio for every amplitude value during the valsalva
     // maneuver and out put a list of values
     public Double amplitudeRatio(final Double averageAmplitude,final List<Double> testAmplitude)
     {
         Log.d("ValsavaAnalyzer", "Calculating amplitude ratio.");
-        double lowTestAmplitude1 = Collections.min(testAmplitude);
-        testAmplitude.remove(testAmplitude.indexOf(lowTestAmplitude1));
-        double lowTestAmplitude2 = Collections.min(testAmplitude);
+        double lowTestAmplitudeAverage = Collections.min(testAmplitude);
 
-        double lowTestAmplitude = (lowTestAmplitude1 + lowTestAmplitude2/2);
         double ratio = 0;
 
-        ratio = lowTestAmplitude/averageAmplitude;
+        ratio = lowTestAmplitudeAverage/averageAmplitude;
 
         return ratio;
     }

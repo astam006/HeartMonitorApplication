@@ -24,6 +24,8 @@ public class ValsalvaDataHolder {
     private static List<Double> irSignal;
     private static List<Double> redSignal;
     private static List<Integer> lungPressureSignal;
+    private Integer testStartIndex;
+    private Integer testEndIndex;
 
     public static void initHolder(){
         pressureSensor = new PressureSensor();
@@ -38,6 +40,16 @@ public class ValsalvaDataHolder {
     public List<Double> getRedSignal() { return redSignal; }
     public List<Integer> getLungPressureSignal() { return lungPressureSignal; }
     public int getNumberOfPacketReceived() { return irSignal.size(); }
+    public Integer getTestStartIndex(){ return testStartIndex; }
+    public Integer getTestEndIndex(){ return testEndIndex; }
+
+    public void SetTestStartedIndex(){
+        testStartIndex = getNumberOfPacketReceived();
+    }
+
+    public void SetTestEndedIndex() {
+        testEndIndex = getNumberOfPacketReceived();
+    }
 
     public void updateFromPeripheral(int newPressure, int irPoint, int redPoint)
     {
@@ -132,6 +144,8 @@ public class ValsalvaDataHolder {
             Log.e("SaveCSV", e.getMessage());
         }
     }
+
+
 
     public String[] getStringArrayFromInts(List<Integer> intArray)
     {

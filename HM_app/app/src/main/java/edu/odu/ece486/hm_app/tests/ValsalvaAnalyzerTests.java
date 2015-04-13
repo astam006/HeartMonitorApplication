@@ -1,6 +1,5 @@
 package edu.odu.ece486.hm_app.tests;
 
-import android.content.res.AssetFileDescriptor;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
@@ -147,10 +146,29 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Log.d("TestFindMinimas", "Finding minimas.");
         List<Integer> minimas = analyzer.findMinimas(pathLength);
         Log.d("TestFindMinimas", "Number of minimas: " + minimas.size());
-        List<Double> amplitudes = analyzer.calculateAmplitude(pathLength, minimas);
+        List<Double> amplitudes = analyzer.calculateAmplitudeWithMinimas(pathLength, minimas);
         Log.d("TestFindMinimas", "Number of amplitudes: " + amplitudes.size());
-        Integer ratio = analyzer.getRatio(amplitudes);
+        Integer ratio = analyzer.getRatio(amplitudes,data.getTestStartIndex(), data.getTestEndIndex());
         Log.d("TestFindMinimas", "Amplitude ratio: " + ratio);
+    }
+
+    public void testFullWithFindMaximas() throws Exception {
+        Log.d("TestFindMaximas", "Getting data holder.");
+        ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
+        Log.d("TestFindMaximas", "Importing csv file.");
+        data.ImportCSV(this.getContext().getAssets().open("LB1.csv"));
+        Log.d("TestFindMaximas", "Number of data points imported: " + data.getRedSignal().size());
+        Log.d("TestFindMaximas", "Calculating Path Length Signal.");
+        List<Double> pathLength = analyzer.getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+        Log.d("TestFindMaximas", "Verifying path length size.");
+        //Assert.assertTrue("Pathlength size: " + pathLength.size(),pathLength.size() == 1368);
+        Log.d("TestFindMaximas", "Finding maximas.");
+        List<Integer> maximas = analyzer.findMaximas(pathLength);
+        Log.d("TestFindMaximas", "Number of maximas: " + maximas.size());
+        List<Double> amplitudes = analyzer.calculateAmplitudeWithMaximas(pathLength, maximas);
+        Log.d("TestFindMaximas", "Number of amplitudes: " + amplitudes.size());
+        Integer ratio = analyzer.getRatio(amplitudes, 17, 43);
+        Log.d("TestFindMaximas", "Amplitude ratio: " + ratio);
     }
 
     /*
@@ -167,12 +185,12 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
      * along with the calculated pathlength signal, 0 or 1 indication for whether a point is a
      * minima, along with the amplitude for that range next to the points that are minimas.
      */
-    public void testChooseAFileFromAssetsAndItWillSaveData() throws Exception
+    public void testMinimaChooseAFileFromAssetsAndItWillSaveData() throws Exception
     {
         Log.d("TestChooseAndSave", "Getting data holder.");
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         Log.d("TestChooseAndSave", "Importing csv file.");
-        data.ImportCSV(this.getContext().getAssets().open("jenTestDataCsv1.csv"));
+        data.ImportCSV(this.getContext().getAssets().open("LB6.csv"));
         Log.d("TestChooseAndSave", "Number of data points imported: " + data.getRedSignal().size());
         Log.d("TestChooseAndSave", "Calculating Path Length Signal.");
         List<Double> pathLength = analyzer.getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
@@ -180,9 +198,28 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Log.d("TestChooseAndSave", "Finding minimas.");
         List<Integer> minimas = analyzer.findMinimas(pathLength);
         Log.d("TestChooseAndSave", "Number of minimas: " + minimas.size());
-        List<Double> amplitudes = analyzer.calculateAmplitude(pathLength, minimas);
+        List<Double> amplitudes = analyzer.calculateAmplitudeWithMinimas(pathLength, minimas);
         Log.d("TestChooseAndSave", "Number of amplitudes: " + amplitudes.size());
         data.saveWithCalculatedData(pathLength, minimas, amplitudes);
+        Log.d("TestChooseAndSave", "Save complete.");
+    }
+
+    public void testMaximaChooseAFileFromAssetsAndItWillSaveData() throws Exception
+    {
+        Log.d("TestChooseAndSave", "Getting data holder.");
+        ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
+        Log.d("TestChooseAndSave", "Importing csv file.");
+        data.ImportCSV(this.getContext().getAssets().open("LB1.csv"));
+        Log.d("TestChooseAndSave", "Number of data points imported: " + data.getRedSignal().size());
+        Log.d("TestChooseAndSave", "Calculating Path Length Signal.");
+        List<Double> pathLength = analyzer.getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+        Log.d("TestChooseAndSave", "Verifying path length size.");
+        Log.d("TestChooseAndSave", "Finding maximas.");
+        List<Integer> maximas = analyzer.findMaximas(pathLength);
+        Log.d("TestChooseAndSave", "Number of maximas: " + maximas.size());
+        List<Double> amplitudes = analyzer.calculateAmplitudeWithMaximas(pathLength, maximas);
+        Log.d("TestChooseAndSave", "Number of amplitudes: " + amplitudes.size());
+        data.saveWithCalculatedData(pathLength, maximas, amplitudes);
         Log.d("TestChooseAndSave", "Save complete.");
     }
 }
