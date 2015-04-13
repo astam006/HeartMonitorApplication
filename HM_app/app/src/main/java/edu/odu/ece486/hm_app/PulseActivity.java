@@ -40,6 +40,7 @@ public class PulseActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mp.stop();
                 startActivity(new Intent(PulseActivity.this, FinalPrepActivity.class));
                 PulseActivity.this.finish();
             }

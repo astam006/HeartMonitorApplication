@@ -85,6 +85,9 @@ public class TestActivityV2 extends Activity {
                             instrView.setTextColor(Color.WHITE);
                             instrView.setText("Almost Done!");
                         }
+                        if(millsUntilFinished < 1000) {
+                            timerView.setText(0);
+                        }
                     }
                     @Override
                     public void onFinish() {

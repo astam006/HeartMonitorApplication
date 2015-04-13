@@ -40,6 +40,7 @@ public class FinalPrepActivity extends Activity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mp.stop();
                 startActivity(new Intent(FinalPrepActivity.this, TestActivityV2.class));
                 FinalPrepActivity.this.finish();
             }

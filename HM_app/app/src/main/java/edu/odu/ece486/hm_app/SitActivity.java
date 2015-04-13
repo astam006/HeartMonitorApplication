@@ -40,6 +40,7 @@ public class SitActivity extends Activity {
             @Override
             public void onClick(View view) {
                 // Show the next instruction
+                mp.stop();
                 startActivity(new Intent(SitActivity.this, PulseActivity.class));
                 SitActivity.this.finish();
             }
