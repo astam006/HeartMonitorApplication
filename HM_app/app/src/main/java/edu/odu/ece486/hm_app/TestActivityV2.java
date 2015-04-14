@@ -26,6 +26,7 @@ public class TestActivityV2 extends Activity {
 
     int progressValue = 1;
     int count = 15;
+    int secondsLeft = 0;
     private boolean testOver = false, setupTime = true;
     private PressureProgressBar pressureProgressBar;
     private TextView pressureValueText;
@@ -53,52 +54,62 @@ public class TestActivityV2 extends Activity {
 
         final ProgressBarTask pbTask = new ProgressBarTask();
 
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(10000, 100) {
             @Override
-            public void onTick(long millsUntilFinished) {
-                timerView.setTextColor(Color.WHITE);
-                timerView.setText(Long.toString(millsUntilFinished / 1000));
-                if(millsUntilFinished < 3000)
-                    instrView.setText("Ready...");
-                if(millsUntilFinished < 2000)
-                    instrView.setText("Set...");
+            public void onTick(long ms) {
+                if (Math.round((float)ms / 1000.0f) != secondsLeft)
+                {
+                    secondsLeft = Math.round((float)ms / 1000.0f);
+                    timerView.setTextColor(Color.WHITE);
+                    timerView.setText(""+secondsLeft);
+                    if(ms < 3000)
+                        instrView.setText("Ready...");
+                    if(ms < 2000)
+                        instrView.setText("Set...");
+                }
+                else if(Math.round((float)ms / 1000.0f) == 0)
+                    timerView.setText("0");
             }
             @Override
             public void onFinish() {
                 pbTask.execute();
                 setupTime = false;
                 ValsalvaDataHolder.getInstance().SetTestStartedIndex();
-                new CountDownTimer(15000, 1000) {
-                    @Override
-                    public void onTick(long millsUntilFinished) {
+                new CountDownTimer(15000, 100) {
+                @Override
+                public void onTick(long ms) {
+                    if (ms > 13000) {
                         instrView.setTextColor(Color.GREEN);
                         instrView.setText("Go!");
+                    }
+                    if(Math.round((float)ms / 1000.0f) != secondsLeft)
+                    {
+                        secondsLeft = Math.round((float)ms / 1000.0f);
                         timerView.setTextColor(Color.RED);
-                        timerView.setText(Long.toString(millsUntilFinished / 1000));
-                        if(millsUntilFinished <= 13000)
+                        timerView.setText(""+secondsLeft);
+                        if(secondsLeft < 13)
                             instrView.setText("");
-                        if(millsUntilFinished <= 10000 && millsUntilFinished > 5000) {
+                        if(secondsLeft <= 10 && secondsLeft > 5) {
                             instrView.setTextColor(Color.WHITE);
                             instrView.setText("Keep Going!");
                         }
-                        if(millsUntilFinished <= 5000) {
+                        if(ms <= 5000) {
                             instrView.setTextColor(Color.WHITE);
                             instrView.setText("Almost Done!");
                         }
-                        if(millsUntilFinished < 1000) {
-                            timerView.setText(0);
-                        }
                     }
-                    @Override
-                    public void onFinish() {
-                        testOver = true;
-                        ValsalvaDataHolder.getInstance().SetTestEndedIndex();
-                        timerView.setTextColor(Color.GREEN);
-                        timerView.setText("Done!");
-                        instrView.setTextColor(Color.GREEN);
-                        instrView.setText("Test Completed! Remain Still.");
-                        //app.sendEndDataTransferCommand();
-                    }
+                    else if(Math.round((float)ms / 1000.0f) < 1)
+                        timerView.setText("0");
+                }
+                @Override
+                public void onFinish() {
+                    testOver = true;
+                    ValsalvaDataHolder.getInstance().SetTestEndedIndex();
+                    timerView.setTextColor(Color.GREEN);
+                    timerView.setText("Done!");
+                    instrView.setTextColor(Color.GREEN);
+                    instrView.setText("Test Completed! Remain Still.");
+                }
                 }.start();
             }
         }.start();
