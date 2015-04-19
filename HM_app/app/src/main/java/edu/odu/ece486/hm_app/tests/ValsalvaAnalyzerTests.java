@@ -209,7 +209,7 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Log.d("TestChooseAndSave", "Getting data holder.");
         ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
         Log.d("TestChooseAndSave", "Importing csv file.");
-        data.ImportCSV(this.getContext().getAssets().open("LB1.csv"));
+        data.ImportCSV(this.getContext().getAssets().open("Russ5.csv"));
         Log.d("TestChooseAndSave", "Number of data points imported: " + data.getRedSignal().size());
         Log.d("TestChooseAndSave", "Calculating Path Length Signal.");
         List<Double> pathLength = analyzer.getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
@@ -221,5 +221,15 @@ public class ValsalvaAnalyzerTests extends AndroidTestCase {
         Log.d("TestChooseAndSave", "Number of amplitudes: " + amplitudes.size());
         data.saveWithCalculatedData(pathLength, maximas, amplitudes);
         Log.d("TestChooseAndSave", "Save complete.");
+    }
+
+    public void testGetTestResultsAfterImport() throws Exception {
+        Log.d("TestGetTestResults", "Getting data holder.");
+        ValsalvaDataHolder data = ValsalvaDataHolder.getInstance();
+        Log.d("TestGetTestResults", "Importing csv file.");
+        data.ImportCSV(this.getContext().getAssets().open("Cody1.csv"));
+        Log.d("TestGetTestResults", "Number of data points imported: " + data.getRedSignal().size());
+        int results = analyzer.getTestResults(data);
+        Log.d("TestGetTestResults", "Ratio: " + results);
     }
 }

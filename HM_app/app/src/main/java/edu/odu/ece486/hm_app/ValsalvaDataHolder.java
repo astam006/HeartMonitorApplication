@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.io.FileWriter;
 
@@ -91,6 +92,19 @@ public class ValsalvaDataHolder {
         {
             Log.e("SaveCSV", e.getMessage());
         }
+    }
+
+    public Integer getAveragedPressure(){
+        int numberOfPressuresToAverage = 3;
+        if(lungPressureSignal.size() < numberOfPressuresToAverage)
+            return  lungPressureSignal.get(lungPressureSignal.size()-1);
+        List<Integer> subList = lungPressureSignal.subList(lungPressureSignal.size()-numberOfPressuresToAverage,lungPressureSignal.size());
+        Integer total = 0;
+        for(Iterator<Integer> i = subList.iterator(); i.hasNext(); ) {
+            Integer item = i.next();
+            total += item;
+        }
+        return ((int)(total/3));
     }
 
     public void saveWithCalculatedData(List<Double> pathLength, List<Integer> minimas, List<Double> amplitudes) throws IOException {

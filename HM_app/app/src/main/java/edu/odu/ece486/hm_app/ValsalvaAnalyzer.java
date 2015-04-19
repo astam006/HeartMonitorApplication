@@ -89,6 +89,29 @@ public class ValsalvaAnalyzer {
         return -1;
     }
 
+    /*
+     * This function will be called to calculate the path length signal and return a
+     * percentage value as use for test result.
+     * This function allows for testing after importing data to ValsalvaDataHolder
+     */
+    public int getTestResults(ValsalvaDataHolder data)
+    {
+        try {
+            List<Double> pathLength = getPathLengthSignal(data.getRedSignal(), data.getIrSignal());
+            List<Integer> maximas = findMaximas(pathLength);
+            List<Double> amplitudes = calculateAmplitudeWithMaximas(pathLength, maximas);
+            int percentMagnitude = getRatio(amplitudes,
+                    getAmplitudeIndexFromPathLengthIndex(maximas,data.getTestStartIndex()),
+                    getAmplitudeIndexFromPathLengthIndex(maximas, data.getTestEndIndex()));
+            return percentMagnitude;
+        }
+        catch (Exception e)
+        {
+            Log.e("Test Results", "Error while calculating test results.");
+        }
+        return -1;
+    }
+
     public int getRatio(List<Double> amplitudes, Integer testStartIndex, Integer testEndIndex)
     {
         return (int)(100*amplitudeRatio(averageRestAmplitude(splitRestAmplitude(amplitudes, testStartIndex)),
