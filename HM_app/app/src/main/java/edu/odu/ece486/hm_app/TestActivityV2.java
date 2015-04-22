@@ -63,9 +63,9 @@ public class TestActivityV2 extends Activity {
                     timerView.setTextColor(Color.WHITE);
                     timerView.setText(""+secondsLeft);
                     if(ms < 3000)
-                        instrView.setText("Ready...");
-                    if(ms < 2000)
-                        instrView.setText("Set...");
+                        instrView.setText("Take a deep breath...");
+                    //if(ms < 2000)
+                    //    instrView.setText("Set...");
                 }
                 else if(Math.round((float)ms / 1000.0f) == 0)
                     timerView.setText("0");
@@ -124,7 +124,7 @@ public class TestActivityV2 extends Activity {
         pressureProgressBar = pBar;
         pressureProgressBar.setProgress(newPressure);
         pressureValueText.setText(Long.toString(newPressure) + " mmHg");
-        if(newPressure < 20 && !setupTime)
+        if(newPressure < 12 && !setupTime)
             lowPressureAlert.show();
         else
             lowPressureAlert.dismiss();
@@ -206,7 +206,8 @@ public class TestActivityV2 extends Activity {
         @Override
         protected Void doInBackground(Void... arguments) {
             while(!testOver) {
-                newPressure = ValsalvaDataHolder.getInstance().getPressure();
+                //newPressure = ValsalvaDataHolder.getInstance().getPressure();
+                newPressure = ValsalvaDataHolder.getInstance().getAveragedPressure();
                 publishProgress(newPressure);
                 try {
                     Thread.sleep(1);

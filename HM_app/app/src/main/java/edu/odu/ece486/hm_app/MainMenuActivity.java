@@ -2,7 +2,11 @@ package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,7 +70,6 @@ public class MainMenuActivity extends Activity {
             public void onClick(View view) {
                 // Switch to help activity.
                 startActivity(new Intent(MainMenuActivity.this, HelpActivity.class));
-                MainMenuActivity.this.finish();
             }
         });
     }

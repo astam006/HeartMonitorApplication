@@ -2,9 +2,12 @@ package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,17 +24,24 @@ public class SitActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sit_instr);
 
-        try {
-            mp.reset();
-            AssetFileDescriptor afd;
-            afd = getAssets().openFd("welcomeAudio.mp3");
-            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-            mp.prepare();
-            mp.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Retrieve Preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean muteVoice = preferences.getBoolean("pref_voice", false);
+
+        // Only play voice if the user hasn't muted it in the settings.
+        if(!muteVoice) {
+            try {
+                mp.reset();
+                AssetFileDescriptor afd;
+                afd = getAssets().openFd("welcomeAudio.mp3");
+                mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                mp.prepare();
+                mp.start();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         Button nextButton = (Button) findViewById(R.id.sitNextButton);

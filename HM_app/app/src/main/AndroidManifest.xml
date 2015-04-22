@@ -45,7 +45,8 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
+            android:label="Settings"
+            android:theme="@android:style/Theme.Black"
             android:screenOrientation="portrait" >
         </activity>
         <activity

@@ -215,11 +215,11 @@ public class ResultsActivity extends Activity {
         multiRenderer.setApplyBackgroundColor(true);
         multiRenderer.setYLabelsAlign(Paint.Align.RIGHT);
         multiRenderer.setBackgroundColor(Color.BLACK);
-        multiRenderer.setMargins(new int[]{60, 70, 15, 0});
+        multiRenderer.setMargins(new int[]{60, 70, 60, 0});
         multiRenderer.setYAxisMin(0);
         multiRenderer.setYAxisMax(1);
         multiRenderer.setChartTitle("Pulse Ox Values");
-        multiRenderer.setXTitle("Test Duration");
+        multiRenderer.setXTitle("\nTest Duration");
         multiRenderer.setYTitle("Red & IR Values");
         multiRenderer.setZoomButtonsVisible(true);
 

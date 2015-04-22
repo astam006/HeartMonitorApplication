@@ -27,8 +27,8 @@
         android:textColor="#fffaff17"
         android:textSize="25sp"
         android:layout_marginLeft="5dp"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/finalText" />
+        android:layout_alignTop="@+id/finalText2"
+        android:layout_alignStart="@+id/textView10" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,9 +37,10 @@
         android:text="The Valsalva Test will begin when you press the next arrow."
         android:id="@+id/finalText2"
         android:textColor="@android:color/white"
-        android:layout_alignTop="@+id/warningText"
-        android:layout_toEndOf="@+id/warningText"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:layout_above="@+id/finalNextBtn"
+        android:layout_alignEnd="@+id/textView10"
+        android:layout_toEndOf="@+id/warningText" />
 
     <ImageButton
         android:layout_width="80dp"
@@ -49,4 +50,18 @@
         android:layout_marginRight="15dp"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/finalText2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Begin blowing into pressure sensor when the next screen says &quot;Go!&quot;"
+        android:id="@+id/textView10"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
 </RelativeLayout>

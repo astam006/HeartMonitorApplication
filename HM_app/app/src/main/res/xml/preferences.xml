@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <CheckBoxPreference
+        android:key="pref_voice"
+        android:title="Mute Voice"
+        android:summary="Enable or Disable audio commentary."
+        android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="pref_prep"
+        android:title="Disable Pre-test Directions"
+        android:summary="If selected, will skip directions in Testing screen."
+        android:defaultValue="false" />
 </PreferenceScreen>

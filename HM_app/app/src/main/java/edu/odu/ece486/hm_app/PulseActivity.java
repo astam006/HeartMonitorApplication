@@ -2,9 +2,11 @@ package edu.odu.ece486.hm_app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +24,22 @@ public class PulseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pulse_instr);
 
-        try {
-            mp.reset();
-            AssetFileDescriptor afd;
-            afd = getAssets().openFd("pulseAudio.mp3");
-            mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-            mp.prepare();
-            mp.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean muteVoice = preferences.getBoolean("pref_voice", false);
+
+        if(!muteVoice) {
+            try {
+                mp.reset();
+                AssetFileDescriptor afd;
+                afd = getAssets().openFd("pulseAudio.mp3");
+                mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                mp.prepare();
+                mp.start();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         ImageButton nextButton = (ImageButton) findViewById(R.id.pulseNextBtn);
