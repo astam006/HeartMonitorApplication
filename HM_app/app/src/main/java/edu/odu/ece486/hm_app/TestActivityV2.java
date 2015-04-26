@@ -206,8 +206,8 @@ public class TestActivityV2 extends Activity {
         @Override
         protected Void doInBackground(Void... arguments) {
             while(!testOver) {
-                //newPressure = ValsalvaDataHolder.getInstance().getPressure();
-                newPressure = ValsalvaDataHolder.getInstance().getAveragedPressure();
+                newPressure = ValsalvaDataHolder.getInstance().getPressure();
+                //newPressure = ValsalvaDataHolder.getInstance().getAveragedPressure();
                 publishProgress(newPressure);
                 try {
                     Thread.sleep(1);

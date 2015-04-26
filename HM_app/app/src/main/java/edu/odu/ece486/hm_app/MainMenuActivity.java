@@ -70,6 +70,7 @@ public class MainMenuActivity extends Activity {
             public void onClick(View view) {
                 // Switch to help activity.
                 startActivity(new Intent(MainMenuActivity.this, HelpActivity.class));
+                MainMenuActivity.this.finish();
             }
         });
     }

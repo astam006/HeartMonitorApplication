@@ -23,12 +23,45 @@ public class HelpActivity extends Activity {
         backButton         = (Button) findViewById(R.id.return_menu_button);
 
         implementBackButton(backButton);
+        implementTestHelpButton(testHelpButton);
+        implementSettingsHelpButton(settingsHelpButton);
+        implementResultsHelpButton(resultsHelpButton);
     }
 
     // Return to the Main Menu when the back button is pressed.
     // Terminate the Help Activity.
     public void implementBackButton(Button backButton) {
         backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HelpActivity.this, MainMenuActivity.class));
+                HelpActivity.this.finish();
+            }
+        });
+    }
+
+    public void implementTestHelpButton(Button testButton) {
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HelpActivity.this, MainMenuActivity.class));
+                HelpActivity.this.finish();
+            }
+        });
+    }
+
+    public void implementSettingsHelpButton(Button settingsButton) {
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HelpActivity.this, MainMenuActivity.class));
+                HelpActivity.this.finish();
+            }
+        });
+    }
+
+    public void implementResultsHelpButton(Button resultsButton) {
+        resultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HelpActivity.this, MainMenuActivity.class));
